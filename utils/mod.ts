@@ -3,6 +3,7 @@ import { signal } from '@preact/signals';
 
 export const useThrottle = <T extends any[], S>(
   callback: (...args: T) => S,
+  options = { timeout: 50 },
 ) => {
   const lock = signal(false);
 
@@ -11,8 +12,27 @@ export const useThrottle = <T extends any[], S>(
     lock.value = true;
     setTimeout(() => {
       lock.value = false;
-    }, 50);
+    }, options.timeout);
 
     callback(...args);
   };
+};
+
+export const useLock = () => {
+  const lock = signal(false);
+
+  const guard = <T extends any[], S>(callback: (...args: T) => S) => {
+    return (...args: T): S | void => {
+      if (lock.value) return;
+      lock.value = true;
+
+      const result = callback(...args);
+
+      lock.value = false;
+
+      return result;
+    };
+  };
+
+  return { lock, guard };
 };

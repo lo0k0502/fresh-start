@@ -1,34 +1,59 @@
 import { WithChildren } from '../types/common.ts';
-import { useThrottle } from '../utils/mod.ts';
+import { useLock, useThrottle } from '../utils/mod.ts';
 
-const footprintsEffect = (e: MouseEvent) => {
-  const dot = document.createElement('span');
+const useAnimation = () => {
+  const rippleLock = useLock();
 
-  dot.className = 'dot';
-  dot.style.left = `${e.clientX}px`;
-  dot.style.top = `${e.clientY}px`;
-  document.body.append(dot);
+  const footprintsEffect = (e: MouseEvent) => {
+    const dot = document.createElement('img');
 
-  setTimeout(() => {
-    dot.style.opacity = '0';
-    setTimeout(() => dot.remove(), 1000);
-  }, 1);
-};
+    dot.classList.add('footprint');
+    dot.src = 'iconmonstr-star-3.svg';
+    dot.style.left = `${e.clientX}px`;
+    dot.style.top = `${e.clientY}px`;
+    document.body.append(dot);
 
-const rippleEffect = (e: MouseEvent) => {
-  const ripple = document.createElement('span');
+    setTimeout(() => {
+      dot.style.opacity = '0';
+      setTimeout(() => dot.remove(), 1000);
+    }, 1);
+  };
 
-  ripple.className = 'ripple';
-  ripple.style.left = `${e.clientX}px`;
-  ripple.style.top = `${e.clientY}px`;
-  document.body.append(ripple);
+  const rippleEffect = rippleLock.guard((e: MouseEvent) => {
+    const ripple = document.createElement('span');
 
-  setTimeout(() => ripple.remove(), 200);
+    ripple.className = 'ripple';
+    ripple.style.left = `${e.clientX}px`;
+    ripple.style.top = `${e.clientY}px`;
+    document.body.append(ripple);
+
+    setTimeout(() => ripple.remove(), 200);
+  });
+
+  const rippleReverseEffect = rippleLock.guard((e: MouseEvent) => {
+    const ripple = document.createElement('span');
+
+    ripple.className = 'ripple-reverse';
+    ripple.style.left = `${e.clientX}px`;
+    ripple.style.top = `${e.clientY}px`;
+    document.body.append(ripple);
+
+    setTimeout(() => ripple.remove(), 200);
+  });
+
+  return {
+    footprintsEffect,
+    rippleEffect,
+    rippleReverseEffect,
+  };
 };
 
 export default function AnimationProvider({ children }: WithChildren) {
-  window.onmousemove = useThrottle(footprintsEffect);
-  window.onclick = rippleEffect;
+  const animation = useAnimation();
+
+  window.onmousemove = useThrottle(animation.footprintsEffect);
+  window.onmouseup = animation.rippleEffect;
+  window.onmousedown = animation.rippleReverseEffect;
 
   return <>{children}</>;
 }
