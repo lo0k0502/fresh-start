@@ -2,8 +2,6 @@ import { WithChildren } from '../types/common.ts';
 import { useLock, useThrottle } from '../utils/mod.ts';
 
 const useAnimation = () => {
-  const rippleLock = useLock();
-
   const footprintsEffect = (e: MouseEvent) => {
     const dot = document.createElement('img');
 
@@ -19,7 +17,7 @@ const useAnimation = () => {
     }, 50);
   };
 
-  const rippleEffect = rippleLock.guard((e: MouseEvent) => {
+  const rippleEffect = (e: MouseEvent) => {
     const ripple = document.createElement('span');
 
     ripple.className = 'ripple';
@@ -28,9 +26,9 @@ const useAnimation = () => {
     document.body.append(ripple);
 
     setTimeout(() => ripple.remove(), 200);
-  });
+  };
 
-  const rippleReverseEffect = rippleLock.guard((e: MouseEvent) => {
+  const rippleReverseEffect = (e: MouseEvent) => {
     const ripple = document.createElement('span');
 
     ripple.className = 'ripple-reverse';
@@ -39,7 +37,7 @@ const useAnimation = () => {
     document.body.append(ripple);
 
     setTimeout(() => ripple.remove(), 200);
-  });
+  };
 
   return {
     footprintsEffect,
@@ -50,10 +48,62 @@ const useAnimation = () => {
 
 export default function AnimationProvider({ children }: WithChildren) {
   const animation = useAnimation();
+  const pageLock = useLock();
 
   window.onmousemove = useThrottle(animation.footprintsEffect);
   window.onmouseup = animation.rippleEffect;
   window.onmousedown = animation.rippleReverseEffect;
+
+  window.onkeydown = (e) => {
+    if (!e.altKey) return;
+
+    switch (e.code) {
+      case 'KeyA':
+      case 'KeyD':
+      case 'KeyW':
+      case 'KeyS':
+        break;
+
+      default:
+        return;
+    }
+
+    if (pageLock.locked) return;
+    pageLock.lock();
+
+    const pageStyles = {
+      KeyA: {
+        backgroundColor: 'orange',
+        animation: 'left-in 0.5s linear',
+      },
+      KeyD: {
+        backgroundColor: 'yellow',
+        animation: 'right-in 0.5s linear',
+      },
+      KeyW: {
+        backgroundColor: 'skyblue',
+        animation: 'up-in 0.5s linear',
+      },
+      KeyS: {
+        backgroundColor: 'blue',
+        animation: 'down-in 0.5s linear',
+      },
+    };
+
+    const pageStyle = pageStyles[e.code];
+
+    const transitionPage = document.createElement('div');
+    transitionPage.className = 'transition-page';
+    transitionPage.style.backgroundColor = pageStyle.backgroundColor;
+    transitionPage.style.animation = pageStyle.animation;
+    document.body.append(transitionPage);
+
+    setTimeout(() => {
+      document.body.style.backgroundColor = pageStyle.backgroundColor;
+      transitionPage.remove();
+      pageLock.unlock();
+    }, 500);
+  };
 
   return <>{children}</>;
 }

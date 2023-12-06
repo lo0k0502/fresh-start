@@ -10,7 +10,7 @@ export default function App({ Component }: PageProps) {
         <title>fresh-start</title>
         <link rel='stylesheet' href='main.css' />
       </head>
-      <body class='w-screen h-screen'>
+      <body>
         <AnimationProvider>
           <Component />
         </AnimationProvider>

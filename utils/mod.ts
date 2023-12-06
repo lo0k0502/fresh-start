@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { signal } from '@preact/signals';
+import { signal, useSignal } from '@preact/signals';
 
 export const useThrottle = <T extends any[], S>(
   callback: (...args: T) => S,
@@ -19,20 +19,15 @@ export const useThrottle = <T extends any[], S>(
 };
 
 export const useLock = () => {
-  const lock = signal(false);
+  const lock = useSignal(false);
 
-  const guard = <T extends any[], S>(callback: (...args: T) => S) => {
-    return (...args: T): S | void => {
-      if (lock.value) return;
+  return {
+    locked: lock.value,
+    lock: () => {
       lock.value = true;
-
-      const result = callback(...args);
-
+    },
+    unlock: () => {
       lock.value = false;
-
-      return result;
-    };
+    },
   };
-
-  return { lock, guard };
 };

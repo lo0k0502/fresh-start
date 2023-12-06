@@ -1,3 +1,15 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.transition-page {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+}
+
 .footprint {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -51,5 +63,28 @@
     100% {
         width: 0;
         height: 0;
+    }
+}
+@keyframes right-in {
+    0% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes left-in {
+    0% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes up-in {
+    0% {
+        transform: translateY(-100%);
+    }
+}
+
+@keyframes down-in {
+    0% {
+        transform: translateY(100%);
     }
 }
