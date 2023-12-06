@@ -16,7 +16,7 @@ const useAnimation = () => {
     setTimeout(() => {
       dot.style.opacity = '0';
       setTimeout(() => dot.remove(), 1000);
-    }, 1);
+    }, 50);
   };
 
   const rippleEffect = rippleLock.guard((e: MouseEvent) => {
