@@ -1,5 +1,6 @@
 import { WithChildren } from '../types/common.ts';
 import { useLock, useThrottle } from '../utils/mod.ts';
+import { mask } from '../shared/signals.ts';
 
 const useAnimation = () => {
   const footprintsEffect = (e: MouseEvent) => {
@@ -61,49 +62,54 @@ export default function AnimationProvider({ children }: WithChildren) {
       case 'KeyA':
       case 'KeyD':
       case 'KeyW':
-      case 'KeyS':
+      case 'KeyS': {
+        if (pageLock.locked) return;
+        pageLock.lock();
+
+        const pageStyles = {
+          KeyA: {
+            backgroundColor: 'orange',
+            animation: 'left-in 0.5s linear',
+          },
+          KeyD: {
+            backgroundColor: 'yellow',
+            animation: 'right-in 0.5s linear',
+          },
+          KeyW: {
+            backgroundColor: 'skyblue',
+            animation: 'up-in 0.5s linear',
+          },
+          KeyS: {
+            backgroundColor: 'blue',
+            animation: 'down-in 0.5s linear',
+          },
+        };
+
+        const pageStyle = pageStyles[e.code];
+
+        const transitionPage = document.createElement('div');
+        transitionPage.className = 'transition-page';
+        transitionPage.style.backgroundColor = pageStyle.backgroundColor;
+        transitionPage.style.animation = pageStyle.animation;
+        document.body.append(transitionPage);
+
+        setTimeout(() => {
+          document.body.style.backgroundColor = pageStyle.backgroundColor;
+          transitionPage.remove();
+          pageLock.unlock();
+        }, 500);
         break;
-
-      default:
-        return;
+      }
     }
-
-    if (pageLock.locked) return;
-    pageLock.lock();
-
-    const pageStyles = {
-      KeyA: {
-        backgroundColor: 'orange',
-        animation: 'left-in 0.5s linear',
-      },
-      KeyD: {
-        backgroundColor: 'yellow',
-        animation: 'right-in 0.5s linear',
-      },
-      KeyW: {
-        backgroundColor: 'skyblue',
-        animation: 'up-in 0.5s linear',
-      },
-      KeyS: {
-        backgroundColor: 'blue',
-        animation: 'down-in 0.5s linear',
-      },
-    };
-
-    const pageStyle = pageStyles[e.code];
-
-    const transitionPage = document.createElement('div');
-    transitionPage.className = 'transition-page';
-    transitionPage.style.backgroundColor = pageStyle.backgroundColor;
-    transitionPage.style.animation = pageStyle.animation;
-    document.body.append(transitionPage);
-
-    setTimeout(() => {
-      document.body.style.backgroundColor = pageStyle.backgroundColor;
-      transitionPage.remove();
-      pageLock.unlock();
-    }, 500);
   };
 
-  return <>{children}</>;
+  return (
+    <>
+      <div
+        class={`absolute w-screen h-screen bg-opacity-50 bg-black z-40 ${mask.value}`}
+        onClick={() => mask.value = 'hidden'}
+      />
+      {children}
+    </>
+  );
 }

@@ -8,7 +8,7 @@
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
-  "fmt": { "singleQuote": true },
+  "fmt": { "singleQuote": true, "lineWidth": 250 },
   "nodeModulesDir": true,
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.6.1/",
