@@ -6,7 +6,6 @@ import * as $_404 from './routes/_404.tsx';
 import * as $_app from './routes/_app.tsx';
 import * as $index from './routes/index.tsx';
 import * as $AnimationProvider from './islands/AnimationProvider.tsx';
-import * as $Counter from './islands/Counter.tsx';
 import { type Manifest } from '$fresh/server.ts';
 
 const manifest = {
@@ -17,7 +16,6 @@ const manifest = {
   },
   islands: {
     './islands/AnimationProvider.tsx': $AnimationProvider,
-    './islands/Counter.tsx': $Counter,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
