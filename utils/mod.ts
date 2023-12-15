@@ -1,8 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
-import { signal, useSignal } from '@preact/signals';
-import { type Lock } from '../types/common.ts';
+import { signal } from '@preact/signals';
 
-export const useThrottle = <T extends any[]>(
+export const toThrottle = <T extends any[]>(
   callback: (...args: T) => void,
   options = { timeout: 50 },
 ) => {
@@ -17,7 +16,7 @@ export const useThrottle = <T extends any[]>(
   };
 };
 
-export const useDebounce = <T extends any[]>(
+export const toDebounce = <T extends any[]>(
   callback: (...args: T) => void,
   options = { timeout: 50 },
 ) => {
@@ -26,19 +25,5 @@ export const useDebounce = <T extends any[]>(
   return (...args: T) => {
     clearTimeout(timer.value);
     timer.value = setTimeout(() => callback(...args), options.timeout);
-  };
-};
-
-export const useLock = (): Lock => {
-  const lock = useSignal(false);
-
-  return {
-    locked: lock.value,
-    lock: () => {
-      lock.value = true;
-    },
-    unlock: () => {
-      lock.value = false;
-    },
   };
 };

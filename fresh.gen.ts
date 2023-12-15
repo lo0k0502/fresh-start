@@ -5,9 +5,11 @@
 import * as $_404 from './routes/_404.tsx';
 import * as $_app from './routes/_app.tsx';
 import * as $index from './routes/index.tsx';
+import * as $nas_index from './routes/nas/index.tsx';
 import * as $AnimationProvider from './islands/AnimationProvider.tsx';
 import * as $NASMenu from './islands/NASMenu.tsx';
 import * as $NASMenuIcon from './islands/NASMenuIcon.tsx';
+import * as $Router from './islands/Router.tsx';
 import * as $contexts_Mask from './islands/contexts/Mask.tsx';
 import { type Manifest } from '$fresh/server.ts';
 
@@ -16,11 +18,13 @@ const manifest = {
     './routes/_404.tsx': $_404,
     './routes/_app.tsx': $_app,
     './routes/index.tsx': $index,
+    './routes/nas/index.tsx': $nas_index,
   },
   islands: {
     './islands/AnimationProvider.tsx': $AnimationProvider,
     './islands/NASMenu.tsx': $NASMenu,
     './islands/NASMenuIcon.tsx': $NASMenuIcon,
+    './islands/Router.tsx': $Router,
     './islands/contexts/Mask.tsx': $contexts_Mask,
   },
   baseUrl: import.meta.url,

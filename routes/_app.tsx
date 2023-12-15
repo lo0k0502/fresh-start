@@ -1,5 +1,6 @@
 import { PageProps } from '$fresh/server.ts';
 import AnimationProvider from '../islands/AnimationProvider.tsx';
+import Router from '../islands/Router.tsx';
 import MaskProvider from '../islands/contexts/Mask.tsx';
 
 export default function App({ Component }: PageProps) {
@@ -13,11 +14,13 @@ export default function App({ Component }: PageProps) {
         <link rel='stylesheet' href='/main.css' />
       </head>
       <body>
-        <AnimationProvider>
-          <MaskProvider>
-            <Component />
-          </MaskProvider>
-        </AnimationProvider>
+        <Router>
+          <AnimationProvider>
+            <MaskProvider>
+              <Component />
+            </MaskProvider>
+          </AnimationProvider>
+        </Router>
       </body>
     </html>
   );

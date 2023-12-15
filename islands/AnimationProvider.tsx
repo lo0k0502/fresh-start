@@ -1,5 +1,5 @@
 import { WithChildren } from '../types/common.ts';
-import { useLock } from '../utils/mod.ts';
+import { useLock } from '../hooks/useLock.ts';
 
 const useAnimation = () => {
   const footprintsEffect = (e: MouseEvent) => {
@@ -50,7 +50,7 @@ export default function AnimationProvider({ children }: WithChildren) {
   const animation = useAnimation();
   const pageLock = useLock();
 
-  // window.onmousemove = useThrottle(animation.footprintsEffect);
+  // window.onmousemove = toThrottle(animation.footprintsEffect);
   // window.onmouseup = animation.rippleEffect;
   // window.onmousedown = animation.rippleReverseEffect;
 

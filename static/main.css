@@ -4,6 +4,11 @@ body {
     overflow: hidden;
 }
 
+.w-2screen {
+    width: 200vw;
+    transition: transform 1s linear;
+}
+
 .transition-page {
     position: absolute;
     width: 100vw;
