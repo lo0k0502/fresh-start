@@ -1,6 +1,5 @@
 import { WithChildren } from '../types/common.ts';
-import { useLock, useThrottle } from '../utils/mod.ts';
-import { mask } from '../shared/signals.ts';
+import { useLock } from '../utils/mod.ts';
 
 const useAnimation = () => {
   const footprintsEffect = (e: MouseEvent) => {
@@ -51,9 +50,9 @@ export default function AnimationProvider({ children }: WithChildren) {
   const animation = useAnimation();
   const pageLock = useLock();
 
-  window.onmousemove = useThrottle(animation.footprintsEffect);
-  window.onmouseup = animation.rippleEffect;
-  window.onmousedown = animation.rippleReverseEffect;
+  // window.onmousemove = useThrottle(animation.footprintsEffect);
+  // window.onmouseup = animation.rippleEffect;
+  // window.onmousedown = animation.rippleReverseEffect;
 
   window.onkeydown = (e) => {
     if (!e.altKey) return;
@@ -103,13 +102,5 @@ export default function AnimationProvider({ children }: WithChildren) {
     }
   };
 
-  return (
-    <>
-      <div
-        class={`absolute w-screen h-screen bg-opacity-50 bg-black z-40 ${mask.value}`}
-        onClick={() => mask.value = 'hidden'}
-      />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

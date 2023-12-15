@@ -42,6 +42,10 @@ body {
     animation: scale-reverse 0.2s ease-out;
 }
 
+.menu {
+    transition: left 0.3s linear;
+}
+
 @keyframes scale {
     0% {
         width: 0;
@@ -86,5 +90,23 @@ body {
 @keyframes down-in {
     0% {
         transform: translateY(100%);
+    }
+}
+
+@keyframes slide-in {
+    from {
+        left: -10rem;
+    }
+    to {
+        left: 0;
+    }
+}
+
+@keyframes slide-out {
+    from {
+        left: 0;
+    }
+    to {
+        left: -10rem;
     }
 }

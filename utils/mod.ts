@@ -2,8 +2,8 @@
 import { signal, useSignal } from '@preact/signals';
 import { type Lock } from '../types/common.ts';
 
-export const useThrottle = <T extends any[], S>(
-  callback: (...args: T) => S,
+export const useThrottle = <T extends any[]>(
+  callback: (...args: T) => void,
   options = { timeout: 50 },
 ) => {
   const lock = signal(false);
@@ -11,11 +11,21 @@ export const useThrottle = <T extends any[], S>(
   return (...args: T) => {
     if (lock.value) return;
     lock.value = true;
-    setTimeout(() => {
-      lock.value = false;
-    }, options.timeout);
+    setTimeout(() => lock.value = false, options.timeout);
 
     callback(...args);
+  };
+};
+
+export const useDebounce = <T extends any[]>(
+  callback: (...args: T) => void,
+  options = { timeout: 50 },
+) => {
+  const timer = signal<number | undefined>(undefined);
+
+  return (...args: T) => {
+    clearTimeout(timer.value);
+    timer.value = setTimeout(() => callback(...args), options.timeout);
   };
 };
 

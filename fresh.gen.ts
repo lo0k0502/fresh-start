@@ -8,6 +8,7 @@ import * as $index from './routes/index.tsx';
 import * as $AnimationProvider from './islands/AnimationProvider.tsx';
 import * as $NASMenu from './islands/NASMenu.tsx';
 import * as $NASMenuIcon from './islands/NASMenuIcon.tsx';
+import * as $contexts_Mask from './islands/contexts/Mask.tsx';
 import { type Manifest } from '$fresh/server.ts';
 
 const manifest = {
@@ -20,6 +21,7 @@ const manifest = {
     './islands/AnimationProvider.tsx': $AnimationProvider,
     './islands/NASMenu.tsx': $NASMenu,
     './islands/NASMenuIcon.tsx': $NASMenuIcon,
+    './islands/contexts/Mask.tsx': $contexts_Mask,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

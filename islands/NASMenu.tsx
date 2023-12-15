@@ -1,8 +1,22 @@
+import { computed } from '@preact/signals';
+import { menu } from '../shared/signals.ts';
+
 export default function NASMenu() {
-  const itemClass = 'w-full h-8 top-40 bg-blue-950 rounded-e-lg text-white flex items-center pl-4 cursor-pointer hover:bg-blue-600 active:bg-blue-700 shadow';
+  const itemClass = 'w-full h-8 top-40 bg-blue-950 rounded-e-lg text-white flex items-center pl-4 cursor-pointer hover:bg-blue-600 active:bg-blue-700 shadow menu';
+
+  const menuClass = computed<'visible left-0' | '-left-40' | 'invisible -left-40'>(() => {
+    switch (menu.value) {
+      case 'open':
+        return 'visible left-0';
+      case 'closing':
+        return '-left-40';
+      case 'closed':
+        return 'invisible -left-40';
+    }
+  });
 
   return (
-    <div class='absolute w-40 flex flex-col gap-4 top-24'>
+    <div class={`absolute w-40 flex flex-col gap-2 py-2 pr-2 top-24 bg-slate-500 rounded-e-lg bg-opacity-50 menu ${menuClass.value}`}>
       <div class={itemClass}>
         <svg
           xmlns='http://www.w3.org/2000/svg'
