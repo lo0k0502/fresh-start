@@ -2,12 +2,12 @@ import { computed, useSignal } from '@preact/signals';
 import { createContext, type JSX } from 'preact';
 import { useContext, useMemo, useRef } from 'preact/hooks';
 import type { WithChildren } from '../../types/common.ts';
-import type { Direction, DirectionKey, Route } from '../../types/route.ts';
+import type { Direction, Route } from '../../types/route.ts';
 import routes, { createIndexRoute, routesMap } from '../../routes.ts';
 import { useAsyncThrottle } from '../../hooks/useThrottle.ts';
 import { directionMap } from '../../constants/route.ts';
 import { navigatingDuration } from '../../constants/animation.ts';
-import { isLiteral, wait } from '../../utils/common.ts';
+import { isDirectionKey, wait } from '../../utils/common.ts';
 import Home from '../../routes/index.tsx';
 import NAS from '../../routes/nas/index.tsx';
 import Game from '../../routes/game/index.tsx';
@@ -60,8 +60,7 @@ export default function Router({ children }: WithChildren) {
   window.onkeyup = (e) => {
     if (!e.altKey) return;
 
-    const directionKeys: DirectionKey[] = ['KeyA', 'KeyD', 'KeyW', 'KeyS'];
-    if (!isLiteral(e.code, directionKeys)) return;
+    if (!isDirectionKey(e.code)) return;
 
     const navigatePath = currentRoute.getPath(directionMap[e.code]);
     if (!navigatePath) return;
