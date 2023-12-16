@@ -1,12 +1,12 @@
 import { computed } from '@preact/signals';
 import { menu } from '../shared/signals.ts';
-import { toThrottle } from '../utils/mod.ts';
+import { useThrottle } from '../hooks/useThrottle.ts';
 
 export default function NASMenuIcon() {
   const instanceClass = computed(() => menu.value === 'open' ? 'absolute z-20 left-5.5' : '');
   const shadowClass = computed(() => !instanceClass.value ? 'hidden' : 'block');
 
-  const onClick = toThrottle(() => {
+  const onClick = useThrottle(() => {
     if (menu.value === 'closing') return;
     if (menu.value === 'closed') return menu.value = 'open';
 

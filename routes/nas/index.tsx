@@ -3,7 +3,7 @@ import NASMenuIcon from '../../islands/NASMenuIcon.tsx';
 
 export default function NAS() {
   return (
-    <div class='w-screen h-full bg-gradient-to-br from-blue-950 via-sky-800 to-blue-950'>
+    <div class='w-screen h-screen bg-gradient-to-br from-blue-950 via-sky-800 to-blue-950'>
       <NASMenu />
       <div
         style={{ borderBottomWidth: '1px' }}

@@ -1,6 +1,6 @@
 import { PageProps } from '$fresh/server.ts';
 import AnimationProvider from '../islands/AnimationProvider.tsx';
-import Router from '../islands/Router.tsx';
+import Router from '../islands/contexts/Router.tsx';
 import MaskProvider from '../islands/contexts/Mask.tsx';
 
 export default function App({ Component }: PageProps) {

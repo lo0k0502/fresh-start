@@ -4,19 +4,21 @@
 
 import * as $_404 from './routes/_404.tsx';
 import * as $_app from './routes/_app.tsx';
+import * as $game_index from './routes/game/index.tsx';
 import * as $index from './routes/index.tsx';
 import * as $nas_index from './routes/nas/index.tsx';
 import * as $AnimationProvider from './islands/AnimationProvider.tsx';
 import * as $NASMenu from './islands/NASMenu.tsx';
 import * as $NASMenuIcon from './islands/NASMenuIcon.tsx';
-import * as $Router from './islands/Router.tsx';
 import * as $contexts_Mask from './islands/contexts/Mask.tsx';
+import * as $contexts_Router from './islands/contexts/Router.tsx';
 import { type Manifest } from '$fresh/server.ts';
 
 const manifest = {
   routes: {
     './routes/_404.tsx': $_404,
     './routes/_app.tsx': $_app,
+    './routes/game/index.tsx': $game_index,
     './routes/index.tsx': $index,
     './routes/nas/index.tsx': $nas_index,
   },
@@ -24,8 +26,8 @@ const manifest = {
     './islands/AnimationProvider.tsx': $AnimationProvider,
     './islands/NASMenu.tsx': $NASMenu,
     './islands/NASMenuIcon.tsx': $NASMenuIcon,
-    './islands/Router.tsx': $Router,
     './islands/contexts/Mask.tsx': $contexts_Mask,
+    './islands/contexts/Router.tsx': $contexts_Router,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

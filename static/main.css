@@ -4,8 +4,36 @@ body {
     overflow: hidden;
 }
 
-.w-2screen {
+.slide-left {
+    flex-direction: row-reverse;
     width: 200vw;
+    height: 100vh;
+    left: -100vw;
+    transform: translateX(50%);
+    transition: transform 1s linear;
+}
+
+.slide-right {
+    width: 200vw;
+    height: 100vh;
+    transform: translateX(-50%);
+    transition: transform 1s linear;
+}
+
+.slide-up {
+    flex-direction: column-reverse;
+    width: 100vw;
+    height: 200vh;
+    top: -100vh;
+    transform: translateY(50%);
+    transition: transform 1s linear;
+}
+
+.slide-down {
+    flex-direction: column;
+    width: 100vw;
+    height: 200vh;
+    transform: translateY(-50%);
     transition: transform 1s linear;
 }
 
