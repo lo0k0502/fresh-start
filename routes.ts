@@ -1,7 +1,8 @@
+import { computed, Signal, signal } from '@preact/signals';
 import { type JSX } from 'preact';
-import type { Direction, Route, RouteRecord } from './types/route.ts';
+import type { Direction, Route, RouteMap } from './types/route.ts';
 
-const routes: Route[] = [];
+const routes: Signal<Route[]> = signal([]);
 const directions: Direction[] = ['left', 'right', 'up', 'down'];
 
 class RouteImpl implements Route {
@@ -9,12 +10,11 @@ class RouteImpl implements Route {
   #component!: JSX.Element;
   #map!: Map<Direction, Route | undefined>;
 
-  constructor(path: string, component: JSX.Element, relatedRoutes?: RouteRecord) {
+  constructor(path: string, component: JSX.Element, relatedRoutes?: RouteMap) {
     this.#path = path;
     this.#component = component;
-    const routeEntries = relatedRoutes && Object.entries(relatedRoutes);
-    this.#map = new Map(routeEntries) as Map<Direction, Route | undefined>;
-    routes.push(this);
+    this.#map = new Map(relatedRoutes);
+    routes.value = [...routes.value, this];
   }
 
   get path() {
@@ -40,8 +40,8 @@ class RouteImpl implements Route {
 
     const index = directions.indexOf(direction);
     const opposite = index % 2 ? directions[index - 1] : directions[index + 1];
-    const routes = {} as RouteRecord;
-    routes[opposite] = this;
+    const routes: RouteMap = new Map();
+    routes.set(opposite, this);
 
     const newRoute = new RouteImpl(path, component, routes);
 
@@ -51,4 +51,5 @@ class RouteImpl implements Route {
 
 export const createIndexRoute = (path: string, component: JSX.Element): Route => new RouteImpl(path, component);
 
+export const routesMap = computed(() => new Map(routes.value.map(({ path, component }) => [path, component])));
 export default routes;

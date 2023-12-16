@@ -4,7 +4,8 @@ export type Direction = 'left' | 'right' | 'up' | 'down';
 export type DirectionKey = 'KeyA' | 'KeyD' | 'KeyW' | 'KeyS';
 export type DirectionMap<T extends string, MapValue extends boolean = false> = MapValue extends true ? Record<Direction, T> : Record<T, Direction>;
 
-export type RouteRecord = Record<Direction, Route | undefined>;
+export type RouteMap = Map<Direction, Route>;
+export type RoutesMap = Map<string, JSX.Element>;
 
 export interface Route {
   path: string;

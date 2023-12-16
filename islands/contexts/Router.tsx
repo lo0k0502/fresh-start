@@ -3,7 +3,7 @@ import { createContext, type JSX } from 'preact';
 import { useContext, useMemo, useRef } from 'preact/hooks';
 import type { WithChildren } from '../../types/common.ts';
 import type { Direction, DirectionKey, Route } from '../../types/route.ts';
-import routes, { createIndexRoute } from '../../routes.ts';
+import routes, { createIndexRoute, routesMap } from '../../routes.ts';
 import { useAsyncThrottle } from '../../hooks/useThrottle.ts';
 import { directionMap } from '../../constants/route.ts';
 import { navigatingDuration } from '../../constants/animation.ts';
@@ -21,8 +21,6 @@ const home = createIndexRoute('/', <Home />);
 home.link('/nas', <NAS />, 'right');
 home.link('/game', <Game />, 'up');
 
-const reservedRoutes = routes.reduce<Record<string, JSX.Element>>((prev, { path, component }) => ({ ...prev, [path]: component }), {});
-
 const RouterContext = createContext<RouterContext>({
   navigate: () => {},
   currentRoute: home,
@@ -35,14 +33,14 @@ export default function Router({ children }: WithChildren) {
   const to = useRef<JSX.Element | null>(null);
   const direction = useRef<Direction | undefined>();
 
-  const currentRoute = useMemo(() => routes.find(({ path }) => path !== '/' && location?.pathname.startsWith(path)) || home, []);
+  const currentRoute = useMemo(() => routes.value.find(({ path }) => path !== '/' && location?.pathname.startsWith(path)) || home, []);
 
   const transitionClass = computed(() => navigating.value ? `slide-${direction.current}` : 'w-screen h-screen');
   const toDisplay = computed(() => navigating.value ? 'block' : 'hidden');
 
   const navigate = useAsyncThrottle(async (path: string) => {
     if (path !== '/' && location.pathname.startsWith(path)) return;
-    if (!Object.keys(reservedRoutes).includes(path)) {
+    if (!routesMap.value.has(path)) {
       location.pathname = path;
       return;
     }
@@ -50,7 +48,7 @@ export default function Router({ children }: WithChildren) {
     const toDirection = currentRoute.getPathDirection(path);
     if (!toDirection) return;
 
-    to.current = reservedRoutes[path];
+    to.current = routesMap.value.get(path)!;
     direction.current = toDirection;
     navigating.value = true;
 
