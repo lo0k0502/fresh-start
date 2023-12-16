@@ -1,5 +1,5 @@
 import { type JSX } from 'preact';
-import type { Direction, Route, RoutePathRecord, RouteRecord } from './types/route.ts';
+import type { Direction, Route, RouteRecord } from './types/route.ts';
 
 const routes: Route[] = [];
 const directions: Direction[] = ['left', 'right', 'up', 'down'];
@@ -25,17 +25,14 @@ class RouteImpl implements Route {
     return this.#component;
   }
 
-  getRoute(direction: Direction) {
-    return this.#map.get(direction);
+  getPath(direction: Direction) {
+    return this.#map.get(direction)?.path;
   }
 
-  getRoutes() {
-    return Object.fromEntries(this.#map) as RouteRecord;
-  }
-
-  getPaths() {
-    const routeArray = Array.from(this.#map).map((entry) => [entry[0], entry[1]?.path] as const);
-    return Object.fromEntries(routeArray) as RoutePathRecord;
+  getPathDirection(path: string) {
+    for (const [key, value] of this.#map.entries()) {
+      if (value?.path === path) return key;
+    }
   }
 
   link(path: string, component: JSX.Element, direction: Direction) {

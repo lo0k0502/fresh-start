@@ -1,3 +1,3 @@
 export default function Game() {
-  return <div class='w-screen h-screen bg-indigo-500' />;
+  return <div class='w-full h-full bg-indigo-500' />;
 }

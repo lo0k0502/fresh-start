@@ -6,11 +6,11 @@ import type { Direction, DirectionKey, Route } from '../../types/route.ts';
 import routes, { createIndexRoute } from '../../routes.ts';
 import { useAsyncThrottle } from '../../hooks/useThrottle.ts';
 import { directionMap } from '../../constants/route.ts';
+import { navigatingDuration } from '../../constants/animation.ts';
+import { isLiteral, wait } from '../../utils/common.ts';
 import Home from '../../routes/index.tsx';
 import NAS from '../../routes/nas/index.tsx';
 import Game from '../../routes/game/index.tsx';
-import { wait } from '../../utils/common.ts';
-import { navigatingTransition } from '../../constants/animation.ts';
 
 interface RouterContext {
   navigate: (path: string) => void;
@@ -35,38 +35,37 @@ export default function Router({ children }: WithChildren) {
   const to = useRef<JSX.Element | null>(null);
   const direction = useRef<Direction | undefined>();
 
-  const currentRoute = useMemo(() => {
-    return routes.find(({ path }) => path !== '/' && location?.pathname.startsWith(path)) || home;
-  }, []);
+  const currentRoute = useMemo(() => routes.find(({ path }) => path !== '/' && location?.pathname.startsWith(path)) || home, []);
 
   const transitionClass = computed(() => navigating.value ? `slide-${direction.current}` : 'w-screen h-screen');
+  const toDisplay = computed(() => navigating.value ? 'block' : 'hidden');
 
   const navigate = useAsyncThrottle(async (path: string) => {
-    if (path === location.pathname) return;
+    if (path !== '/' && location.pathname.startsWith(path)) return;
     if (!Object.keys(reservedRoutes).includes(path)) {
       location.pathname = path;
       return;
     }
 
-    if (currentRoute.path === path) return;
-
-    const toDirection = Object.entries(currentRoute.getPaths()).find(([_, targetPath]) => path === targetPath)?.[0] as Direction | undefined;
+    const toDirection = currentRoute.getPathDirection(path);
     if (!toDirection) return;
 
     to.current = reservedRoutes[path];
     direction.current = toDirection;
     navigating.value = true;
-    await wait(navigatingTransition);
+
+    await wait(navigatingDuration);
+
     location.pathname = path;
   });
 
   window.onkeyup = (e) => {
     if (!e.altKey) return;
 
-    const directionKeys = ['KeyA', 'KeyD', 'KeyW', 'KeyS'];
-    if (!directionKeys.includes(e.code)) return;
+    const directionKeys: DirectionKey[] = ['KeyA', 'KeyD', 'KeyW', 'KeyS'];
+    if (!isLiteral(e.code, directionKeys)) return;
 
-    const navigatePath = currentRoute.getPaths()[directionMap[e.code as DirectionKey]];
+    const navigatePath = currentRoute.getPath(directionMap[e.code]);
     if (!navigatePath) return;
 
     navigate(navigatePath);
@@ -74,11 +73,11 @@ export default function Router({ children }: WithChildren) {
 
   return (
     <RouterContext.Provider value={{ navigate, currentRoute }}>
-      <div class={transitionClass.value} style={{ position: 'absolute', display: 'flex', transition: `transform ${navigatingTransition}ms linear` }}>
-        <div>
+      <div class={transitionClass.value} style={{ position: 'absolute', display: 'flex', transition: `transform ${navigatingDuration}ms linear` }}>
+        <div class='w-screen h-screen'>
           {children}
         </div>
-        <div>
+        <div class={`w-screen h-screen ${toDisplay.value}`}>
           {to.current}
         </div>
       </div>
