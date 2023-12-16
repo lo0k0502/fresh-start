@@ -10,14 +10,12 @@ body {
     height: 100vh;
     left: -100vw;
     transform: translateX(50%);
-    transition: transform 1s linear;
 }
 
 .slide-right {
     width: 200vw;
     height: 100vh;
     transform: translateX(-50%);
-    transition: transform 1s linear;
 }
 
 .slide-up {
@@ -26,7 +24,6 @@ body {
     height: 200vh;
     top: -100vh;
     transform: translateY(50%);
-    transition: transform 1s linear;
 }
 
 .slide-down {
@@ -34,7 +31,6 @@ body {
     width: 100vw;
     height: 200vh;
     transform: translateY(-50%);
-    transition: transform 1s linear;
 }
 
 .transition-page {
@@ -73,10 +69,6 @@ body {
     transform: translate(-50%, -50%);
     pointer-events: none;
     animation: scale-reverse 0.2s ease-out;
-}
-
-.menu {
-    transition: left 0.3s linear;
 }
 
 @keyframes scale {

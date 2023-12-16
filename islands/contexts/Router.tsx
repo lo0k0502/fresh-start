@@ -4,15 +4,17 @@ import { useContext, useMemo, useRef } from 'preact/hooks';
 import type { WithChildren } from '../../types/common.ts';
 import type { Direction, DirectionKey, Route } from '../../types/route.ts';
 import routes, { createIndexRoute } from '../../routes.ts';
-import { useThrottle } from '../../hooks/useThrottle.ts';
+import { useAsyncThrottle } from '../../hooks/useThrottle.ts';
 import { directionMap } from '../../constants/route.ts';
 import Home from '../../routes/index.tsx';
 import NAS from '../../routes/nas/index.tsx';
 import Game from '../../routes/game/index.tsx';
+import { wait } from '../../utils/common.ts';
+import { navigatingTransition } from '../../constants/animation.ts';
 
 interface RouterContext {
   navigate: (path: string) => void;
-  current: Route;
+  currentRoute: Route;
 }
 
 const home = createIndexRoute('/', <Home />);
@@ -23,35 +25,40 @@ const reservedRoutes = routes.reduce<Record<string, JSX.Element>>((prev, { path,
 
 const RouterContext = createContext<RouterContext>({
   navigate: () => {},
-  current: home,
+  currentRoute: home,
 });
 
 export const useRouter = () => useContext(RouterContext);
 
 export default function Router({ children }: WithChildren) {
-  const nav = useSignal(false);
+  const navigating = useSignal(false);
   const to = useRef<JSX.Element | null>(null);
   const direction = useRef<Direction | undefined>();
 
-  const current = useMemo(() => {
-    return routes.filter(({ path }) => path !== '/').find(({ path }) => location?.pathname.startsWith(path)) || home;
+  const currentRoute = useMemo(() => {
+    return routes.find(({ path }) => path !== '/' && location?.pathname.startsWith(path)) || home;
   }, []);
 
-  const divClass = computed(() => nav.value ? `slide-${direction.current}` : 'w-screen h-screen');
+  const transitionClass = computed(() => navigating.value ? `slide-${direction.current}` : 'w-screen h-screen');
 
-  const navigate = useThrottle((path: string) => {
-    if (!Object.keys(reservedRoutes).includes(path)) return location.pathname = path;
+  const navigate = useAsyncThrottle(async (path: string) => {
+    if (path === location.pathname) return;
+    if (!Object.keys(reservedRoutes).includes(path)) {
+      location.pathname = path;
+      return;
+    }
 
-    if (current.path === path) return location.pathname = path;
+    if (currentRoute.path === path) return;
 
-    const toDirection = Object.entries(current.getPaths()).find(([_, targetPath]) => path === targetPath)?.[0] as Direction | undefined;
+    const toDirection = Object.entries(currentRoute.getPaths()).find(([_, targetPath]) => path === targetPath)?.[0] as Direction | undefined;
     if (!toDirection) return;
 
     to.current = reservedRoutes[path];
     direction.current = toDirection;
-    nav.value = true;
-    setTimeout(() => location.pathname = path, 1000);
-  }, { timeout: 1000 });
+    navigating.value = true;
+    await wait(navigatingTransition);
+    location.pathname = path;
+  });
 
   window.onkeyup = (e) => {
     if (!e.altKey) return;
@@ -59,15 +66,15 @@ export default function Router({ children }: WithChildren) {
     const directionKeys = ['KeyA', 'KeyD', 'KeyW', 'KeyS'];
     if (!directionKeys.includes(e.code)) return;
 
-    const navigatePath = current.getPaths()[directionMap[e.code as DirectionKey]];
+    const navigatePath = currentRoute.getPaths()[directionMap[e.code as DirectionKey]];
     if (!navigatePath) return;
 
     navigate(navigatePath);
   };
 
   return (
-    <RouterContext.Provider value={{ navigate, current }}>
-      <div class={`absolute flex ${divClass.value}`}>
+    <RouterContext.Provider value={{ navigate, currentRoute }}>
+      <div class={transitionClass.value} style={{ position: 'absolute', display: 'flex', transition: `transform ${navigatingTransition}ms linear` }}>
         <div>
           {children}
         </div>

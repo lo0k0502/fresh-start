@@ -1,3 +1,3 @@
 import { signal } from '@preact/signals';
 
-export const menu = signal<'open' | 'closing' | 'closed'>('closed');
+export const menu = signal<'open' | 'close'>('close');
