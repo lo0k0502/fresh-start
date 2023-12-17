@@ -12,6 +12,12 @@ body {
   width: 100dvw;
 }
 
+div[class^='col-span-'] {
+  display: flex;
+  align-items: center;
+  padding-inline: 1rem;
+}
+
 .indicator-kbd {
   font-weight: 600;
   padding-inline: 0.4rem;

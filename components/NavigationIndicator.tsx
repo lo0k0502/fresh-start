@@ -28,7 +28,7 @@ export default function NavigationIndicator({ children, show, directions }: Navi
   return (
     <>
       {show && directions.map((direction) => (
-        <div style={{ position: 'absolute', opacity: '80%', zIndex: 10, animation: 'blink 1s ease-in-out infinite', ...indicatorStyleMap[direction] }}>
+        <div style={{ position: 'absolute', opacity: '80%', zIndex: 5, animation: 'blink 1s ease-in-out infinite', ...indicatorStyleMap[direction] }}>
           <span style={kbdStyleMap[direction]} class='absolute flex'>
             <kbd class={`indicator-kbd ${isMac ? `leading-6 text-2xl` : ''}`}>
               {isMac ? '⌥' : 'Alt'}

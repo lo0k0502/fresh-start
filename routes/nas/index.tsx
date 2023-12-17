@@ -1,20 +1,17 @@
-import UploadButton from '../../components/UploadButton.tsx';
+import FileList from '../../islands/nas/FileList.tsx';
+import Toolbar from '../../islands/nas/Toolbar.tsx';
 
 export default function NAS() {
   return (
-    <div class='w-full h-full'>
-      <div class='w-full flex justify-between items-center'>
+    <div class='relative flex flex-col w-full h-full'>
+      <div class='flex justify-between items-center'>
         <span class='text-4xl font-semibold select-none'>
           Files
         </span>
-        <UploadButton />
+        <Toolbar />
       </div>
-      <div class='bg-white rounded-lg h-40 mt-4'>
-        <div
-          style={{ borderBottomWidth: '1px' }}
-          class='h-4 border-gray-500'
-        >
-        </div>
+      <div class='flex-grow mt-8 overflow-auto no-scrollbar'>
+        <FileList />
       </div>
     </div>
   );
