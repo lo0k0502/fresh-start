@@ -11,10 +11,11 @@ import * as $AnimationProvider from './islands/AnimationProvider.tsx';
 import * as $NASMenu from './islands/NASMenu.tsx';
 import * as $NASMenuIcon from './islands/NASMenuIcon.tsx';
 import * as $components_Arrow from './islands/components/Arrow.tsx';
+import * as $components_NavigationIndicator from './islands/components/NavigationIndicator.tsx';
 import * as $contexts_ContextProvider from './islands/contexts/ContextProvider.tsx';
 import * as $contexts_Mask from './islands/contexts/Mask.tsx';
-import * as $contexts_NavigationIndicator from './islands/contexts/NavigationIndicator.tsx';
 import * as $contexts_Router from './islands/contexts/Router.tsx';
+import * as $contexts_WindowEvents from './islands/contexts/WindowEvents.tsx';
 import { type Manifest } from '$fresh/server.ts';
 
 const manifest = {
@@ -30,10 +31,11 @@ const manifest = {
     './islands/NASMenu.tsx': $NASMenu,
     './islands/NASMenuIcon.tsx': $NASMenuIcon,
     './islands/components/Arrow.tsx': $components_Arrow,
+    './islands/components/NavigationIndicator.tsx': $components_NavigationIndicator,
     './islands/contexts/ContextProvider.tsx': $contexts_ContextProvider,
     './islands/contexts/Mask.tsx': $contexts_Mask,
-    './islands/contexts/NavigationIndicator.tsx': $contexts_NavigationIndicator,
     './islands/contexts/Router.tsx': $contexts_Router,
+    './islands/contexts/WindowEvents.tsx': $contexts_WindowEvents,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

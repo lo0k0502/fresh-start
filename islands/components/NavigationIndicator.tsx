@@ -1,7 +1,7 @@
 import { type JSX } from 'preact';
 import type { WithChildren } from '../../types/common.ts';
 import type { Direction, DirectionMap } from '../../types/route.ts';
-import Arrow from '../components/Arrow.tsx';
+import Arrow from './Arrow.tsx';
 import { directionKeyMap } from '../../constants/route.ts';
 
 interface NavigationIndicatorProps extends WithChildren {

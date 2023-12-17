@@ -1,5 +1,7 @@
 import type { DirectionKey, LiteralDirectionMap } from '../types/route.ts';
 
+export const directionKeys: DirectionKey[] = ['KeyA', 'KeyD', 'KeyW', 'KeyS'];
+
 export const keyDirectionMap: LiteralDirectionMap<DirectionKey, true> = {
   KeyA: 'left',
   KeyD: 'right',

@@ -1,14 +1,16 @@
 import { computed, useSignal } from '@preact/signals';
 import { createContext, type JSX } from 'preact';
-import { useContext, useMemo, useRef } from 'preact/hooks';
+import { useContext, useEffect, useMemo, useRef } from 'preact/hooks';
 import type { WithChildren } from '../../types/common.ts';
 import type { Direction, Route } from '../../types/route.ts';
+import type { PartialKeyboardEventRule } from '../../types/windowEvents.ts';
 import routes, { createIndexRoute, routesMap } from '../../routes.ts';
+import { useWindowEvents } from './WindowEvents.tsx';
 import { useAsyncThrottle } from '../../hooks/useThrottle.ts';
-import { keyDirectionMap } from '../../constants/route.ts';
+import { directionKeys, keyDirectionMap } from '../../constants/route.ts';
 import { navigatingDuration } from '../../constants/animation.ts';
 import { isDirectionKey, wait } from '../../utils/common.ts';
-import NavigationIndicator from './NavigationIndicator.tsx';
+import NavigationIndicator from '../components/NavigationIndicator.tsx';
 import Home from '../../routes/index.tsx';
 import NAS from '../../routes/nas/index.tsx';
 import Game from '../../routes/game/index.tsx';
@@ -30,6 +32,7 @@ const RouterContext = createContext<RouterContext>({
 export const useRouter = () => useContext(RouterContext);
 
 export default function Router({ children }: WithChildren) {
+  const { setKeyEvent } = useWindowEvents();
   const navigating = useSignal(false);
   const showIndicator = useSignal(false);
   const to = useRef<JSX.Element | null>(null);
@@ -64,16 +67,30 @@ export default function Router({ children }: WithChildren) {
     showIndicator.value = false;
   });
 
-  window.onkeyup = (e) => {
-    if (!e.altKey) return;
+  useEffect(() => {
+    const displayIndicatorRule: PartialKeyboardEventRule = {
+      code: 'KeyI',
+      altKey: true,
+    };
 
-    if (!isDirectionKey(e.code)) return;
+    setKeyEvent(displayIndicatorRule, () => displayIndicator());
 
-    const navigatePath = currentRoute.getPath(keyDirectionMap[e.code]);
-    if (!navigatePath) return displayIndicator();
+    for (const key of directionKeys) {
+      const navigateRule: PartialKeyboardEventRule = {
+        code: key,
+        altKey: true,
+      };
 
-    navigate(navigatePath);
-  };
+      setKeyEvent(navigateRule, (e) => {
+        if (!isDirectionKey(e.code)) return;
+
+        const navigatePath = currentRoute.getPath(keyDirectionMap[e.code]);
+        if (!navigatePath) return displayIndicator();
+
+        navigate(navigatePath);
+      });
+    }
+  }, []);
 
   return (
     <RouterContext.Provider value={{ navigate, currentRoute }}>
