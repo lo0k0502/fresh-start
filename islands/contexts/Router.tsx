@@ -14,6 +14,8 @@ import NavigationIndicator from '../components/NavigationIndicator.tsx';
 import Home from '../../routes/index.tsx';
 import NAS from '../../routes/nas/index.tsx';
 import Game from '../../routes/game/index.tsx';
+import Monitor from '../../routes/monitor/index.tsx';
+import Future from '../../routes/future/index.tsx';
 
 interface RouterContext {
   navigate: (path: string) => void;
@@ -21,8 +23,10 @@ interface RouterContext {
 }
 
 const home = createIndexRoute('/', <Home />);
+home.link('/monitor', <Monitor />, 'left');
 home.link('/nas', <NAS />, 'right');
 home.link('/game', <Game />, 'up');
+home.link('/future', <Future />, 'down');
 
 const RouterContext = createContext<RouterContext>({
   navigate: () => {},

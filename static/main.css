@@ -1,120 +1,126 @@
 body {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+  width: 100dvw;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.h-screen {
+  height: 100dvh;
+}
+
+.w-screen {
+  width: 100dvw;
 }
 
 .indicator-kbd {
-    line-height: 1.5rem;
-    padding-inline: 0.4rem;
-    text-align: center;
-    vertical-align: middle;
-    background-color: #d1d5db;
-    border-radius: 20%;
-    border-bottom: 2px solid #9ca3af
+  font-weight: 600;
+  padding-inline: 0.4rem;
+  background-color: #d1d5db;
+  border-radius: 20%;
+  border-bottom: 2px solid #9ca3af;
 }
 
 .slide-left {
-    flex-direction: row-reverse;
-    width: 200vw;
-    height: 100vh;
-    left: -100vw;
-    transform: translateX(50%);
+  flex-direction: row-reverse;
+  width: 200dvw;
+  height: 100dvh;
+  left: -100dvw;
+  transform: translateX(50%);
 }
 
 .slide-right {
-    width: 200vw;
-    height: 100vh;
-    transform: translateX(-50%);
+  width: 200dvw;
+  height: 100dvh;
+  transform: translateX(-50%);
 }
 
 .slide-up {
-    flex-direction: column-reverse;
-    width: 100vw;
-    height: 200vh;
-    top: -100vh;
-    transform: translateY(50%);
+  flex-direction: column-reverse;
+  width: 100dvw;
+  height: 200dvh;
+  top: -100dvh;
+  transform: translateY(50%);
 }
 
 .slide-down {
-    flex-direction: column;
-    width: 100vw;
-    height: 200vh;
-    transform: translateY(-50%);
+  flex-direction: column;
+  width: 100dvw;
+  height: 200dvh;
+  transform: translateY(-50%);
 }
 
 .transition-page {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
+  position: absolute;
+  width: 100dvw;
+  height: 100dvh;
 }
 
 .footprint {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    transition: opacity 1s ease;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: opacity 1s ease;
 }
 
 .dot {
-    width: 0.25rem;
-    height: 0.25rem;
-    background-color: red;
-    border-radius: 50%;
+  width: 0.25rem;
+  height: 0.25rem;
+  background-color: red;
+  border-radius: 50%;
 }
 
 .ripple {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    animation: scale 0.2s ease-out;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: scale 0.2s ease-out;
 }
 
 .ripple-reverse {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    animation: scale-reverse 0.2s ease-out;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: scale-reverse 0.2s ease-out;
 }
 
 @keyframes scale {
-    0% {
-        width: 0;
-        height: 0;
-    }
-    100% {
-        width: 5rem;
-        height: 5rem;
-        opacity: 0;
-    }
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: 5rem;
+    height: 5rem;
+    opacity: 0;
+  }
 }
 
 @keyframes scale-reverse {
-    0% {
-        width: 5rem;
-        height: 5rem;
-        opacity: 0;
-    }
-    100% {
-        width: 0;
-        height: 0;
-    }
+  0% {
+    width: 5rem;
+    height: 5rem;
+    opacity: 0;
+  }
+  100% {
+    width: 0;
+    height: 0;
+  }
 }
 
 @keyframes blink {
-    0% {
-        opacity: 80%;
-    }
+  0% {
+    opacity: 80%;
+  }
 
-    50% {
-        opacity: 20%;
-    }
+  50% {
+    opacity: 20%;
+  }
 
-    100% {
-        opacity: 80%;
-    }
+  100% {
+    opacity: 80%;
+  }
 }

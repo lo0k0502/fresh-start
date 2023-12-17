@@ -4,8 +4,10 @@
 
 import * as $_404 from './routes/_404.tsx';
 import * as $_app from './routes/_app.tsx';
+import * as $future_index from './routes/future/index.tsx';
 import * as $game_index from './routes/game/index.tsx';
 import * as $index from './routes/index.tsx';
+import * as $monitor_index from './routes/monitor/index.tsx';
 import * as $nas_index from './routes/nas/index.tsx';
 import * as $AnimationProvider from './islands/AnimationProvider.tsx';
 import * as $NASMenu from './islands/NASMenu.tsx';
@@ -22,8 +24,10 @@ const manifest = {
   routes: {
     './routes/_404.tsx': $_404,
     './routes/_app.tsx': $_app,
+    './routes/future/index.tsx': $future_index,
     './routes/game/index.tsx': $game_index,
     './routes/index.tsx': $index,
+    './routes/monitor/index.tsx': $monitor_index,
     './routes/nas/index.tsx': $nas_index,
   },
   islands: {

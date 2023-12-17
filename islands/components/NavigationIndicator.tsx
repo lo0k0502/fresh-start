@@ -3,6 +3,7 @@ import type { WithChildren } from '../../types/common.ts';
 import type { Direction, DirectionMap } from '../../types/route.ts';
 import Arrow from './Arrow.tsx';
 import { directionKeyMap } from '../../constants/route.ts';
+import { isMac } from '../../constants/common.ts';
 
 interface NavigationIndicatorProps extends WithChildren {
   show: boolean;
@@ -28,10 +29,12 @@ export default function NavigationIndicator({ children, show, directions }: Navi
     <>
       {show && directions.map((direction) => (
         <div style={{ position: 'absolute', opacity: '80%', zIndex: 10, animation: 'blink 1s ease-in-out infinite', ...indicatorStyleMap[direction] }}>
-          <span style={kbdStyleMap[direction]} class='absolute'>
-            <kbd class='indicator-kbd font-semibold'>Alt</kbd>
+          <span style={kbdStyleMap[direction]} class='absolute flex'>
+            <kbd class={`indicator-kbd ${isMac ? `leading-6 text-2xl` : ''}`}>
+              {isMac ? '⌥' : 'Alt'}
+            </kbd>
             <span class='mx-1'>+</span>
-            <kbd class='indicator-kbd font-semibold'>{directionKeyMap[direction].slice(-1)}</kbd>
+            <kbd class='indicator-kbd'>{directionKeyMap[direction].slice(-1)}</kbd>
           </span>
 
           <Arrow direction={direction} />
