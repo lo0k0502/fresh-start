@@ -1,2 +1,2 @@
-export const navigatingDuration = 500;
+export const navigatingDuration = 300;
 export const nasMenuDuration = 300;

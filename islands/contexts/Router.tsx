@@ -5,9 +5,10 @@ import type { WithChildren } from '../../types/common.ts';
 import type { Direction, Route } from '../../types/route.ts';
 import routes, { createIndexRoute, routesMap } from '../../routes.ts';
 import { useAsyncThrottle } from '../../hooks/useThrottle.ts';
-import { directionMap } from '../../constants/route.ts';
+import { keyDirectionMap } from '../../constants/route.ts';
 import { navigatingDuration } from '../../constants/animation.ts';
 import { isDirectionKey, wait } from '../../utils/common.ts';
+import NavigationIndicator from './NavigationIndicator.tsx';
 import Home from '../../routes/index.tsx';
 import NAS from '../../routes/nas/index.tsx';
 import Game from '../../routes/game/index.tsx';
@@ -30,13 +31,13 @@ export const useRouter = () => useContext(RouterContext);
 
 export default function Router({ children }: WithChildren) {
   const navigating = useSignal(false);
+  const showIndicator = useSignal(false);
   const to = useRef<JSX.Element | null>(null);
   const direction = useRef<Direction | undefined>();
 
   const currentRoute = useMemo(() => routes.value.find(({ path }) => path !== '/' && location?.pathname.startsWith(path)) || home, []);
 
   const transitionClass = computed(() => navigating.value ? `slide-${direction.current}` : 'w-screen h-screen');
-  const toDisplay = computed(() => navigating.value ? 'block' : 'hidden');
 
   const navigate = useAsyncThrottle(async (path: string) => {
     if (path !== '/' && location.pathname.startsWith(path)) return;
@@ -57,26 +58,36 @@ export default function Router({ children }: WithChildren) {
     location.pathname = path;
   });
 
+  const displayIndicator = useAsyncThrottle(async () => {
+    showIndicator.value = true;
+    await wait(3000);
+    showIndicator.value = false;
+  });
+
   window.onkeyup = (e) => {
     if (!e.altKey) return;
 
     if (!isDirectionKey(e.code)) return;
 
-    const navigatePath = currentRoute.getPath(directionMap[e.code]);
-    if (!navigatePath) return;
+    const navigatePath = currentRoute.getPath(keyDirectionMap[e.code]);
+    if (!navigatePath) return displayIndicator();
 
     navigate(navigatePath);
   };
 
   return (
     <RouterContext.Provider value={{ navigate, currentRoute }}>
-      <div class={transitionClass.value} style={{ position: 'absolute', display: 'flex', transition: `transform ${navigatingDuration}ms linear` }}>
-        <div class='w-screen h-screen'>
-          {children}
+      <div class={transitionClass.value} style={{ position: 'absolute', display: 'flex', transition: `transform ${navigatingDuration}ms ease-in-out` }}>
+        <div class='relative w-screen h-screen'>
+          <NavigationIndicator show={showIndicator.value} directions={currentRoute.availableDirections}>
+            {children}
+          </NavigationIndicator>
         </div>
-        <div class={`w-screen h-screen ${toDisplay.value}`}>
-          {to.current}
-        </div>
+        {navigating.value && (
+          <div class='relative w-screen h-screen'>
+            {to.current}
+          </div>
+        )}
       </div>
     </RouterContext.Provider>
   );

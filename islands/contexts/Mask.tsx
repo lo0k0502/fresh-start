@@ -30,7 +30,7 @@ export default function MaskProvider({ children }: WithChildren) {
   return (
     <MaskContext.Provider value={{ value: mask.value, open, close }}>
       <div
-        class={`absolute w-screen h-screen bg-opacity-50 bg-black z-10 ${mask.value ? 'block' : 'hidden'}`}
+        class={`absolute w-screen h-screen bg-opacity-50 bg-black z-20 ${mask.value ? 'block' : 'hidden'}`}
         onClick={close}
       />
       {children}

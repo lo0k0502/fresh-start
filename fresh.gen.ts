@@ -10,7 +10,10 @@ import * as $nas_index from './routes/nas/index.tsx';
 import * as $AnimationProvider from './islands/AnimationProvider.tsx';
 import * as $NASMenu from './islands/NASMenu.tsx';
 import * as $NASMenuIcon from './islands/NASMenuIcon.tsx';
+import * as $components_Arrow from './islands/components/Arrow.tsx';
+import * as $contexts_ContextProvider from './islands/contexts/ContextProvider.tsx';
 import * as $contexts_Mask from './islands/contexts/Mask.tsx';
+import * as $contexts_NavigationIndicator from './islands/contexts/NavigationIndicator.tsx';
 import * as $contexts_Router from './islands/contexts/Router.tsx';
 import { type Manifest } from '$fresh/server.ts';
 
@@ -26,7 +29,10 @@ const manifest = {
     './islands/AnimationProvider.tsx': $AnimationProvider,
     './islands/NASMenu.tsx': $NASMenu,
     './islands/NASMenuIcon.tsx': $NASMenuIcon,
+    './islands/components/Arrow.tsx': $components_Arrow,
+    './islands/contexts/ContextProvider.tsx': $contexts_ContextProvider,
     './islands/contexts/Mask.tsx': $contexts_Mask,
+    './islands/contexts/NavigationIndicator.tsx': $contexts_NavigationIndicator,
     './islands/contexts/Router.tsx': $contexts_Router,
   },
   baseUrl: import.meta.url,

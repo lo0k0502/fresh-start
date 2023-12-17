@@ -1,9 +1,9 @@
 import { computed, Signal, signal } from '@preact/signals';
 import { type JSX } from 'preact';
 import type { Direction, Route, RouteMap } from './types/route.ts';
+import { getOppositeDirection } from './utils/common.ts';
 
 const routes: Signal<Route[]> = signal([]);
-const directions: Direction[] = ['left', 'right', 'up', 'down'];
 
 class RouteImpl implements Route {
   #path!: string;
@@ -25,6 +25,10 @@ class RouteImpl implements Route {
     return this.#component;
   }
 
+  get availableDirections() {
+    return Array.from(this.#map).filter(([_, route]) => route).map(([direction]) => direction);
+  }
+
   getPath(direction: Direction) {
     return this.#map.get(direction)?.path;
   }
@@ -38,10 +42,8 @@ class RouteImpl implements Route {
   link(path: string, component: JSX.Element, direction: Direction) {
     if (this.#map.get(direction)) throw new Error('This direction is occupied!');
 
-    const index = directions.indexOf(direction);
-    const opposite = index % 2 ? directions[index - 1] : directions[index + 1];
     const routes: RouteMap = new Map();
-    routes.set(opposite, this);
+    routes.set(getOppositeDirection(direction), this);
 
     const newRoute = new RouteImpl(path, component, routes);
 

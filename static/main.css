@@ -4,6 +4,16 @@ body {
     overflow: hidden;
 }
 
+.indicator-kbd {
+    line-height: 1.5rem;
+    padding-inline: 0.4rem;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #d1d5db;
+    border-radius: 20%;
+    border-bottom: 2px solid #9ca3af
+}
+
 .slide-left {
     flex-direction: row-reverse;
     width: 200vw;
@@ -94,44 +104,17 @@ body {
         height: 0;
     }
 }
-@keyframes right-in {
+
+@keyframes blink {
     0% {
-        transform: translateX(100%);
+        opacity: 80%;
     }
-}
 
-@keyframes left-in {
-    0% {
-        transform: translateX(-100%);
+    50% {
+        opacity: 20%;
     }
-}
 
-@keyframes up-in {
-    0% {
-        transform: translateY(-100%);
-    }
-}
-
-@keyframes down-in {
-    0% {
-        transform: translateY(100%);
-    }
-}
-
-@keyframes slide-in {
-    from {
-        left: -10rem;
-    }
-    to {
-        left: 0;
-    }
-}
-
-@keyframes slide-out {
-    from {
-        left: 0;
-    }
-    to {
-        left: -10rem;
+    100% {
+        opacity: 80%;
     }
 }
