@@ -119,14 +119,29 @@ div[class^='col-span-'] {
 
 @keyframes blink {
   0% {
-    opacity: 80%;
+    opacity: 0.8;
   }
 
   50% {
-    opacity: 20%;
+    opacity: 0.2;
   }
 
   100% {
-    opacity: 80%;
+    opacity: 0.8;
+  }
+}
+
+@keyframes star-blink {
+  0% {
+    opacity: 1;
+  }
+
+  10% {
+    opacity: 0.2;
+  }
+
+  20%,
+  100% {
+    opacity: 1;
   }
 }

@@ -3,7 +3,7 @@ import { createContext, type JSX } from 'preact';
 import { useContext, useEffect, useMemo, useRef } from 'preact/hooks';
 import type { WithChildren } from '../../types/common.ts';
 import type { Direction, Route } from '../../types/route.ts';
-import routes, { home, routesMap } from '../../routes.ts';
+import routes, { home, routesMap } from '../../base/routes.ts';
 import { useWindowEvents } from './WindowEvents.tsx';
 import { useAsyncThrottle } from '../../hooks/useThrottle.ts';
 import { directionKeys, keyDirectionMap } from '../../constants/route.ts';
