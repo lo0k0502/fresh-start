@@ -1,9 +1,14 @@
-import { computed, Signal, signal } from '@preact/signals';
+import { PageProps } from '$fresh/server.ts';
 import { type JSX } from 'preact';
 import type { Direction, Route, RouteMap } from './types/route.ts';
 import { getOppositeDirection } from './utils/common.ts';
+import Home from './routes/index.tsx';
+import MonitorLayout from './routes/monitor/_layout.tsx';
+import NASLayout from './routes/nas/_layout.tsx';
+import GameLayout from './routes/game/_layout.tsx';
+import FutureLayout from './routes/future/_layout.tsx';
 
-const routes: Signal<Route[]> = signal([]);
+const routes: Route[] = [];
 
 class RouteImpl implements Route {
   #path!: string;
@@ -14,7 +19,7 @@ class RouteImpl implements Route {
     this.#path = path;
     this.#component = component;
     this.#map = new Map(relatedRoutes);
-    routes.value = [...routes.value, this];
+    routes.push(this);
   }
 
   get path() {
@@ -51,7 +56,28 @@ class RouteImpl implements Route {
   }
 }
 
-export const createIndexRoute = (path: string, component: JSX.Element): Route => new RouteImpl(path, component);
+const home = new RouteImpl('/', Home());
 
-export const routesMap = computed(() => new Map(routes.value.map(({ path, component }) => [path, component])));
+const fooPageProps: PageProps = {
+  data: null,
+  remoteAddr: { transport: 'tcp', hostname: '', port: 0 },
+  url: new URL('http://foo'),
+  basePath: '',
+  route: '',
+  pattern: '',
+  destination: 'notFound',
+  params: {},
+  isPartial: false,
+  state: {},
+  config: {} as PageProps['config'],
+  Component: () => null,
+};
+
+home.link('/monitor', MonitorLayout({ ...fooPageProps }), 'left');
+home.link('/nas', NASLayout({ ...fooPageProps }), 'right');
+home.link('/game', GameLayout({ ...fooPageProps }), 'up');
+home.link('/future', FutureLayout({ ...fooPageProps }), 'down');
+
+const routesMap = new Map(routes.map(({ path, component }) => [path, component]));
+export { home, routesMap };
 export default routes;

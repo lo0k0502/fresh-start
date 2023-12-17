@@ -4,11 +4,16 @@
 
 import * as $_404 from './routes/_404.tsx';
 import * as $_app from './routes/_app.tsx';
+import * as $future_layout from './routes/future/_layout.tsx';
 import * as $future_index from './routes/future/index.tsx';
+import * as $game_layout from './routes/game/_layout.tsx';
 import * as $game_index from './routes/game/index.tsx';
 import * as $index from './routes/index.tsx';
+import * as $monitor_layout from './routes/monitor/_layout.tsx';
 import * as $monitor_index from './routes/monitor/index.tsx';
+import * as $nas_layout from './routes/nas/_layout.tsx';
 import * as $nas_index from './routes/nas/index.tsx';
+import * as $nas_upload from './routes/nas/upload.tsx';
 import * as $AnimationProvider from './islands/AnimationProvider.tsx';
 import * as $NASMenu from './islands/NASMenu.tsx';
 import * as $NASMenuIcon from './islands/NASMenuIcon.tsx';
@@ -24,11 +29,16 @@ const manifest = {
   routes: {
     './routes/_404.tsx': $_404,
     './routes/_app.tsx': $_app,
+    './routes/future/_layout.tsx': $future_layout,
     './routes/future/index.tsx': $future_index,
+    './routes/game/_layout.tsx': $game_layout,
     './routes/game/index.tsx': $game_index,
     './routes/index.tsx': $index,
+    './routes/monitor/_layout.tsx': $monitor_layout,
     './routes/monitor/index.tsx': $monitor_index,
+    './routes/nas/_layout.tsx': $nas_layout,
     './routes/nas/index.tsx': $nas_index,
+    './routes/nas/upload.tsx': $nas_upload,
   },
   islands: {
     './islands/AnimationProvider.tsx': $AnimationProvider,
