@@ -1,4 +1,4 @@
-import { WithChildren } from '../types/common.ts';
+import { WithChildren } from '../../types/common.ts';
 
 const useAnimation = () => {
   const footprintsEffect = (e: MouseEvent) => {

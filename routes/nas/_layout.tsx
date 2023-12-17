@@ -1,6 +1,6 @@
 import { PageProps } from '$fresh/server.ts';
-import NASMenu from '../../islands/NASMenu.tsx';
-import NASMenuIcon from '../../islands/NASMenuIcon.tsx';
+import NASMenu from '../../components/NASMenu.tsx';
+import NASMenuIcon from '../../components/NASMenuIcon.tsx';
 
 export default function NASLayout({ Component }: PageProps) {
   return (
@@ -39,13 +39,7 @@ export default function NASLayout({ Component }: PageProps) {
         <div class='flex-grow' />
         <div class='justify-self-end w-8 h-8 rounded-full bg-white cursor-pointer' />
       </div>
-      <div class='w-full h-full pt-28 px-8 text-white'>
-        <div class='w-full flex justify-between items-center'>
-          <span class='text-4xl font-semibold select-none'>Files</span>
-          <div class='rounded h-8 w-28 bg-white flex justify-center items-center text-slate-500 cursor-pointer select-none hover:bg-slate-100 active:bg-slate-300'>
-            <span>Upload</span>
-          </div>
-        </div>
+      <div class='w-full h-full pt-28 px-8 pb-8 text-white'>
         <Component />
       </div>
     </div>

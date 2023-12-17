@@ -14,11 +14,7 @@ import * as $monitor_index from './routes/monitor/index.tsx';
 import * as $nas_layout from './routes/nas/_layout.tsx';
 import * as $nas_index from './routes/nas/index.tsx';
 import * as $nas_upload from './routes/nas/upload.tsx';
-import * as $AnimationProvider from './islands/AnimationProvider.tsx';
-import * as $NASMenu from './islands/NASMenu.tsx';
-import * as $NASMenuIcon from './islands/NASMenuIcon.tsx';
-import * as $components_Arrow from './islands/components/Arrow.tsx';
-import * as $components_NavigationIndicator from './islands/components/NavigationIndicator.tsx';
+import * as $contexts_AnimationProvider from './islands/contexts/AnimationProvider.tsx';
 import * as $contexts_ContextProvider from './islands/contexts/ContextProvider.tsx';
 import * as $contexts_Mask from './islands/contexts/Mask.tsx';
 import * as $contexts_Router from './islands/contexts/Router.tsx';
@@ -41,11 +37,7 @@ const manifest = {
     './routes/nas/upload.tsx': $nas_upload,
   },
   islands: {
-    './islands/AnimationProvider.tsx': $AnimationProvider,
-    './islands/NASMenu.tsx': $NASMenu,
-    './islands/NASMenuIcon.tsx': $NASMenuIcon,
-    './islands/components/Arrow.tsx': $components_Arrow,
-    './islands/components/NavigationIndicator.tsx': $components_NavigationIndicator,
+    './islands/contexts/AnimationProvider.tsx': $contexts_AnimationProvider,
     './islands/contexts/ContextProvider.tsx': $contexts_ContextProvider,
     './islands/contexts/Mask.tsx': $contexts_Mask,
     './islands/contexts/Router.tsx': $contexts_Router,

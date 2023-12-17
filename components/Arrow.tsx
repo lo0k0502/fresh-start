@@ -1,4 +1,4 @@
-import { Direction, LiteralDirectionMap } from '../../types/route.ts';
+import { Direction, LiteralDirectionMap } from '../types/route.ts';
 
 interface ArrowProps {
   direction: Direction;

@@ -9,7 +9,7 @@ import { useAsyncThrottle } from '../../hooks/useThrottle.ts';
 import { directionKeys, keyDirectionMap } from '../../constants/route.ts';
 import { navigatingDuration } from '../../constants/animation.ts';
 import { isDirectionKey, wait } from '../../utils/common.ts';
-import NavigationIndicator from '../components/NavigationIndicator.tsx';
+import NavigationIndicator from '../../components/NavigationIndicator.tsx';
 
 interface RouterContext {
   navigate: (path: string) => void;
