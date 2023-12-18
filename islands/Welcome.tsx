@@ -1,8 +1,35 @@
 import IconBrandDeno from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-deno.tsx';
 import { effect, useSignal } from '@preact/signals';
-import { useRef } from 'preact/hooks';
+import { useEffect, useRef } from 'preact/hooks';
+import { lazy, Suspense } from 'preact/compat';
 import { Firework, Particle } from '../base/firework.ts';
 import { starMetadata } from '../constants/animation.ts';
+
+function Stars() {
+  return (
+    <>
+      {starMetadata.map(({ top, left, size, animationTime, animationDelay }) => (
+        <span
+          style={{
+            position: 'absolute',
+            top: `${top}dvh`,
+            left: `${left}dvw`,
+            width: `${size}vmin`,
+            height: `${size}vmin`,
+            borderRadius: '50%',
+            backgroundColor: 'white',
+            animation: `star-blink ${animationTime}s ease-in-out infinite`,
+            animationDelay: `${animationDelay}s`,
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
+const Component = lazy(() => {
+  await;
+});
 
 const stars = starMetadata.map(({ top, left, size, animationTime, animationDelay }) => (
   <span
@@ -22,34 +49,36 @@ const stars = starMetadata.map(({ top, left, size, animationTime, animationDelay
 
 export default function Welcome() {
   const welcome = useSignal(false);
-  const canvas = useRef<HTMLCanvasElement>(null);
-  const animation = useRef<number>();
+  const a = useSignal(false);
+  const fireWorkCanvas = useRef<HTMLCanvasElement>(null);
+  const starsCanvas = useRef<HTMLCanvasElement>(null);
+  const fireworkAnimation = useRef<number>();
 
   const stopAnimation = () => {
-    if (!animation.current || !canvas.current) return;
+    if (!fireworkAnimation.current || !fireWorkCanvas.current) return;
 
-    cancelAnimationFrame(animation.current);
-    canvas.current.getContext('2d')!.clearRect(0, 0, canvas.current.width, canvas.current.height);
+    cancelAnimationFrame(fireworkAnimation.current);
+    fireWorkCanvas.current.getContext('2d')!.clearRect(0, 0, fireWorkCanvas.current.width, fireWorkCanvas.current.height);
   };
 
   const startAnimation = () => {
-    if (!canvas.current) return;
+    if (!fireWorkCanvas.current) return;
 
     stopAnimation();
 
-    const ctx = canvas.current.getContext('2d')!;
-    canvas.current.width = window.innerWidth;
-    canvas.current.height = window.innerHeight;
+    const ctx = fireWorkCanvas.current.getContext('2d')!;
+    fireWorkCanvas.current.width = window.innerWidth;
+    fireWorkCanvas.current.height = window.innerHeight;
 
-    const fireworks = [new Firework(canvas.current, ctx)];
+    const fireworks = [new Firework(fireWorkCanvas.current, ctx)];
     const particles: Particle[] = [];
 
     const animate = () => {
-      if (!canvas.current) return;
+      if (!fireWorkCanvas.current) return;
 
-      ctx.clearRect(0, 0, canvas.current.width, canvas.current.height);
+      ctx.clearRect(0, 0, fireWorkCanvas.current.width, fireWorkCanvas.current.height);
 
-      if (Math.random() < 0.05) fireworks.push(new Firework(canvas.current, ctx));
+      if (Math.random() < 0.05) fireworks.push(new Firework(fireWorkCanvas.current, ctx));
 
       for (let i = fireworks.length - 1; i >= 0; i--) {
         fireworks[i].update();
@@ -71,20 +100,71 @@ export default function Welcome() {
         particles.splice(i, 1);
       }
 
-      animation.current = requestAnimationFrame(animate);
+      fireworkAnimation.current = requestAnimationFrame(animate);
     };
 
-    animation.current = requestAnimationFrame(animate);
+    fireworkAnimation.current = requestAnimationFrame(animate);
   };
 
   effect(() => !welcome.value && stopAnimation());
 
+  globalThis.addEventListener('resize', () => {
+    if (starsCanvas.current) {
+      starsCanvas.current.width = window.innerWidth;
+      starsCanvas.current.height = window.innerHeight;
+    }
+
+    if (fireWorkCanvas.current) {
+      fireWorkCanvas.current.width = window.innerWidth;
+      fireWorkCanvas.current.height = window.innerHeight;
+    }
+  });
+
+  useEffect(() => {
+    a.value = true;
+    if (!starsCanvas.current) return;
+
+    const ctx = starsCanvas.current.getContext('2d')!;
+    starsCanvas.current.width = window.innerWidth;
+    starsCanvas.current.height = window.innerHeight;
+
+    const animate = () => {
+      if (!starsCanvas.current) return;
+
+      starMetadata.forEach(({ left, top, size }) => {
+        if (!starsCanvas.current) return;
+
+        const x = left / 100 * starsCanvas.current.width;
+        const y = top / 100 * starsCanvas.current.height;
+        const starSize = size * starsCanvas.current.height / 100;
+
+        if (Math.random() >= 0.05) return;
+
+        ctx.clearRect(x - starSize, y - starSize, starSize * 2, starSize * 2);
+
+        const brightness = Math.random() > 0.01 ? 1 : Math.random();
+
+        ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
+        ctx.beginPath();
+        ctx.roundRect(x, y, starSize, starSize, 50);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+    };
+
+    requestAnimationFrame(animate);
+  }, []);
+
   return (
     <>
-      <div class='absolute w-screen h-screen'>
-        {stars}
-      </div>
-      <canvas ref={canvas} class='absolute'></canvas>
+      {/* <canvas ref={starsCanvas} class='absolute'></canvas> */}
+      {/* <div class='absolute w-full h-full'>{stars}</div> */}
+      {a.value && <Stars />}
+      <Suspense fallback={null}>
+        <Stars />
+      </Suspense>
+      <canvas ref={fireWorkCanvas} class='absolute'></canvas>
       <div
         onMouseEnter={() => welcome.value = true}
         onMouseLeave={() => welcome.value = false}
