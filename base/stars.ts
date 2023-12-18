@@ -1,9 +1,9 @@
 import type { Star } from '../types/stars.ts';
 import { random } from '../utils/common.ts';
 
-const starAmount = 300;
+const starAmount = 1000;
 
-const starColors = ['255, 255, 255', '255, 255, 0'];
+const starColors = ['255, 255, 255'];
 
 const magnitudeCardinal = 0.2;
 const maxMagnitude = 8;
@@ -25,11 +25,18 @@ const resetBlinkCounters = (star: Star) => {
 };
 
 export const getStars = async () => {
-  const kv = await Deno.openKv();
+  const jsonPath = './data/stars.json';
+  const jsonImportPath = '../data/stars.json';
 
-  const starsInKV = (await kv.get(['stars'])).value;
+  try {
+    await Deno.stat(jsonPath);
 
-  if (starsInKV) return starsInKV;
+    const stars = (await import(jsonImportPath, { with: { type: 'json' } })).default;
+
+    return stars;
+  } catch (error) {
+    if (!(error instanceof Deno.errors.NotFound)) throw error;
+  }
 
   const stars = Array.from({ length: starAmount }, () => {
     return {
@@ -45,9 +52,9 @@ export const getStars = async () => {
     } as Star;
   });
 
-  await kv.set(['stars'], stars);
+  await Deno.writeTextFile(jsonPath, JSON.stringify(stars));
 
-  return (await kv.get(['stars'])).value;
+  return stars;
 };
 
 export class StarrySky {
