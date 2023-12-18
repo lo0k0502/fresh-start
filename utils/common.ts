@@ -10,3 +10,5 @@ export const getOppositeDirection = (direction: Direction) => {
   const index = directions.indexOf(direction);
   return index % 2 ? directions[index - 1] : directions[index + 1];
 };
+
+export const random = (min: number, max: number) => Math.random() * (max - min) + min;
