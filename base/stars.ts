@@ -25,8 +25,8 @@ const resetBlinkCounters = (star: Star) => {
 };
 
 export const getStars = async () => {
-  const jsonPath = './data/stars.json';
-  const jsonImportPath = '../data/stars.json';
+  const jsonPath = './_data/stars.json';
+  const jsonImportPath = '../_data/stars.json';
 
   try {
     await Deno.stat(jsonPath);
