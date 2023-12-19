@@ -14,6 +14,8 @@ import * as $monitor_index from './routes/monitor/index.tsx';
 import * as $nas_layout from './routes/nas/_layout.tsx';
 import * as $nas_index from './routes/nas/index.tsx';
 import * as $nas_upload from './routes/nas/upload.tsx';
+import * as $stream_layout from './routes/stream/_layout.tsx';
+import * as $stream_index from './routes/stream/index.tsx';
 import * as $Welcome from './islands/Welcome.tsx';
 import * as $contexts_AnimationProvider from './islands/contexts/AnimationProvider.tsx';
 import * as $contexts_ContextProvider from './islands/contexts/ContextProvider.tsx';
@@ -39,6 +41,8 @@ const manifest = {
     './routes/nas/_layout.tsx': $nas_layout,
     './routes/nas/index.tsx': $nas_index,
     './routes/nas/upload.tsx': $nas_upload,
+    './routes/stream/_layout.tsx': $stream_layout,
+    './routes/stream/index.tsx': $stream_index,
   },
   islands: {
     './islands/Welcome.tsx': $Welcome,

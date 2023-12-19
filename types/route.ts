@@ -11,8 +11,11 @@ export type RoutesMap = Map<string, JSX.Element>;
 export interface Route {
   path: string;
   component: JSX.Element;
-  availableDirections: Direction[];
+  validDirections: Direction[];
+  isOccupied(direction: Direction): boolean;
   getPath(direction: Direction): string | undefined;
   getPathDirection(path: string): Direction | undefined;
-  link(path: string, component: JSX.Element, direction: Direction): void;
+  setMap(direction: Direction, route: Route): void;
+  link(direction: Direction, route: Route): Route;
+  link(direction: Direction, route: { path: string; component: JSX.Element }): Route;
 }

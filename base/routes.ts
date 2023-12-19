@@ -1,12 +1,13 @@
 import { PageProps } from '$fresh/server.ts';
 import { type JSX } from 'preact';
-import type { Direction, Route, RouteMap } from '../types/route.ts';
+import type { Direction, Route } from '../types/route.ts';
 import { getOppositeDirection } from '../utils/common.ts';
 import Home from '../routes/index.tsx';
 import MonitorLayout from '../routes/monitor/_layout.tsx';
 import NASLayout from '../routes/nas/_layout.tsx';
 import GameLayout from '../routes/game/_layout.tsx';
 import FutureLayout from '../routes/future/_layout.tsx';
+import StreamLayout from '../routes/stream/_layout.tsx';
 
 const routes: Route[] = [];
 
@@ -15,10 +16,10 @@ class RouteImpl implements Route {
   #component!: JSX.Element;
   #map!: Map<Direction, Route | undefined>;
 
-  constructor(path: string, component: JSX.Element, relatedRoutes?: RouteMap) {
+  constructor(path: string, component: JSX.Element) {
     this.#path = path;
     this.#component = component;
-    this.#map = new Map(relatedRoutes);
+    this.#map = new Map();
     routes.push(this);
   }
 
@@ -30,8 +31,12 @@ class RouteImpl implements Route {
     return this.#component;
   }
 
-  get availableDirections() {
+  get validDirections() {
     return Array.from(this.#map).filter(([_, route]) => route).map(([direction]) => direction);
+  }
+
+  isOccupied(direction: Direction) {
+    return !!this.#map.get(direction);
   }
 
   getPath(direction: Direction) {
@@ -44,19 +49,29 @@ class RouteImpl implements Route {
     }
   }
 
-  link(path: string, component: JSX.Element, direction: Direction) {
+  setMap(direction: Direction, route: Route) {
+    this.#map.set(direction, route);
+  }
+
+  link(direction: Direction, route: Route | { path: string; component: JSX.Element }) {
     if (this.#map.get(direction)) throw new Error('This direction is occupied!');
 
-    const routes: RouteMap = new Map();
-    routes.set(getOppositeDirection(direction), this);
+    const opposite = getOppositeDirection(direction);
 
-    const newRoute = new RouteImpl(path, component, routes);
+    const targetRoute = this.#isRoute(route) ? route : new RouteImpl(route.path, route.component);
+    if (targetRoute.isOccupied(opposite)) throw new Error(`Target's direction is occupied! target: ${targetRoute.path}, this: ${this.path}`);
 
-    this.#map.set(direction, newRoute);
+    targetRoute.setMap(opposite, this);
+    this.#map.set(direction, targetRoute);
+
+    return targetRoute;
+  }
+
+  // deno-lint-ignore no-explicit-any
+  #isRoute(value: any): value is Route {
+    return value && typeof value.link !== 'undefined';
   }
 }
-
-const home = new RouteImpl('/', Home());
 
 const fooPageProps: PageProps = {
   data: null,
@@ -73,10 +88,17 @@ const fooPageProps: PageProps = {
   Component: () => null,
 };
 
-home.link('/monitor', MonitorLayout({ ...fooPageProps }), 'left');
-home.link('/nas', NASLayout({ ...fooPageProps }), 'right');
-home.link('/game', GameLayout({ ...fooPageProps }), 'up');
-home.link('/future', FutureLayout({ ...fooPageProps }), 'down');
+const home = new RouteImpl('/', Home({ ...fooPageProps, data: { stars: [] } }));
+const game = new RouteImpl('/game', GameLayout(fooPageProps));
+const nas = new RouteImpl('/nas', NASLayout(fooPageProps));
+home.link('left', { path: '/monitor', component: MonitorLayout(fooPageProps) });
+home.link('right', nas)
+  .link('up', { path: '/stream', component: StreamLayout(fooPageProps) })
+  .link('left', game);
+home.link('down', { path: '/future', component: FutureLayout(fooPageProps) })
+  .link('down', game)
+  .link('down', home);
+game.link('left', nas);
 
 const routesMap = new Map(routes.map(({ path, component }) => [path, component]));
 export { home, routesMap };

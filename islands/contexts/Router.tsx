@@ -78,7 +78,7 @@ export default function Router({ children }: WithChildren) {
     <RouterContext.Provider value={{ navigate, currentRoute }}>
       <div class={transitionClass.value} style={{ position: 'absolute', display: 'flex', transition: `transform ${navigatingDuration}ms ease-in-out` }}>
         <div class='relative w-screen h-screen'>
-          <NavigationIndicator show={showIndicator.value} directions={currentRoute.availableDirections}>
+          <NavigationIndicator show={showIndicator.value} directions={currentRoute.validDirections}>
             {children}
           </NavigationIndicator>
         </div>
