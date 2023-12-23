@@ -1,5 +1,43 @@
+import { useSignal } from '@preact/signals';
+import { useCallback } from 'preact/hooks';
+import type { FileInfo } from '../../types/nas.ts';
 import FileCard from '../../components/nas/FileCard.tsx';
+import UploadButton from '../../components/UploadButton.tsx';
 
-export default function FileList() {
-  return <div class='flex flex-col gap-4'>{Array.from({ length: 10 }, () => <FileCard />)}</div>;
+interface FileListProps {
+  files: FileInfo[];
+}
+
+export default function FileList({ files }: FileListProps) {
+  const $files = useSignal(files.map((file) => ({ ...file, uploadedAt: new Date(file.uploadedAt) })));
+
+  const loadFiles = useCallback(async () => {
+    $files.value = (await (await fetch('http://localhost:8080/resources/hpc')).json()).map((file: FileInfo) => ({ ...file, uploadedAt: new Date(file.uploadedAt) }));
+  }, []);
+
+  const deleteFile = useCallback(async (url: string) => {
+    try {
+      await fetch(url, { method: 'DELETE' });
+      await loadFiles();
+    } catch (error) {
+      console.error('Error Deleting file: ', error);
+    }
+  }, []);
+
+  return (
+    $files.value.length
+      ? (
+        <div class='flex flex-col gap-4'>
+          {$files.value.map((file) => <FileCard file={file} onDeleteClick={deleteFile} />)}
+        </div>
+      )
+      : (
+        <div class='h-full flex flex-col items-center'>
+          <img src='/icons8-file.svg' class='h-80' />
+          <span class='text-4xl font-semibold'>No Files Found</span>
+          <span class='text-xl my-4'>Click the button below to upload files</span>
+          <UploadButton />
+        </div>
+      )
+  );
 }
