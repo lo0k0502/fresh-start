@@ -10,6 +10,17 @@ export interface Star {
   blinkDelayCount: number;
 }
 
+export interface ShootingStar {
+  x: number;
+  y: number;
+  length: number;
+  angle: number;
+  speed: number;
+  size: number;
+  maxLength: number;
+  lengthCount: number;
+}
+
 export interface WithStars {
   stars: Star[];
 }

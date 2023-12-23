@@ -1,4 +1,4 @@
-import type { Star } from '../types/stars.ts';
+import type { ShootingStar, Star } from '../types/stars.ts';
 import { random } from '../utils/common.ts';
 
 const starAmount = 1000;
@@ -57,7 +57,24 @@ export const getStars = async () => {
   return stars;
 };
 
+const generateShootingStar = (canvasWidth: number, canvasHeight: number) => {
+  const maxLength = Math.random() * 200 + 300;
+
+  return {
+    x: Math.random() * canvasWidth,
+    y: Math.random() * canvasHeight,
+    length: Math.random() * 20 + 30,
+    angle: Math.PI / 4,
+    speed: Math.random() * 6 + 4,
+    size: (Math.floor(Math.random() * maxMagnitude) + 1) * magnitudeCardinal,
+    maxLength,
+    lengthCount: maxLength,
+  };
+};
+
 export class StarrySky {
+  #shootingStars: ShootingStar[] = [];
+
   constructor(
     private stars: Star[],
     private canvas: HTMLCanvasElement,
@@ -77,7 +94,11 @@ export class StarrySky {
 
       resetBlinkCounters(star);
 
-      this.#draw(star);
+      this.#drawStar(star);
+    }
+
+    for (const shootingStar of this.#shootingStars) {
+      this.#drawShootingStar(shootingStar);
     }
 
     this.#startAnimation(this.stars);
@@ -87,6 +108,8 @@ export class StarrySky {
     const animate = () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+      if (Math.random() < 0.005) this.#shootingStars.push(generateShootingStar(this.canvas.width, this.canvas.height));
+
       for (const star of stars) {
         star.x += star.xVelocity;
         star.y -= star.yVelocity;
@@ -94,7 +117,16 @@ export class StarrySky {
         const isOffScreen = star.x > this.canvas.width + star.radius || star.y > this.canvas.height + star.radius;
         if (isOffScreen) this.#resetStar(star);
 
-        this.#draw(star);
+        this.#drawStar(star);
+      }
+
+      for (const shootingStar of this.#shootingStars) {
+        shootingStar.x -= shootingStar.speed * Math.cos(shootingStar.angle);
+        shootingStar.y += shootingStar.speed * Math.sin(shootingStar.angle);
+        shootingStar.lengthCount -= shootingStar.speed;
+
+        if ((shootingStar.lengthCount + shootingStar.length) <= 0) this.#shootingStars = this.#shootingStars.filter((star) => star !== shootingStar);
+        this.#drawShootingStar(shootingStar);
       }
 
       requestAnimationFrame(animate);
@@ -103,7 +135,7 @@ export class StarrySky {
     requestAnimationFrame(animate);
   }
 
-  #draw(star: Star) {
+  #drawStar(star: Star) {
     let alpha = 1;
     if (!star.blinkDelayCount && star.blinkDurationCount) {
       const halfBaseDuration = star.blinkBaseDuration / 2;
@@ -128,5 +160,24 @@ export class StarrySky {
 
     star.x = fromLeft ? -star.radius : random(0, this.canvas.width);
     star.y = fromLeft ? random(0, this.canvas.height) : this.canvas.height + star.radius;
+  }
+
+  #drawShootingStar(shootingStar: ShootingStar) {
+    this.ctx.strokeStyle = `rgba(255, 255, 255, ${Math.random() * 0.8 + 0.2})`;
+    this.ctx.lineWidth = shootingStar.size;
+    this.ctx.lineCap = 'round';
+
+    const xAngle = Math.cos(shootingStar.angle);
+    const yAngle = Math.sin(shootingStar.angle);
+    const startLengthDiff = Math.abs(shootingStar.lengthCount - shootingStar.maxLength);
+
+    const length = shootingStar.lengthCount <= 0 ? shootingStar.length + shootingStar.lengthCount : shootingStar.length;
+    const beginX = startLengthDiff < shootingStar.length ? shootingStar.x - (shootingStar.length - startLengthDiff) * xAngle : shootingStar.x;
+    const beginY = startLengthDiff < shootingStar.length ? shootingStar.y + (shootingStar.length - startLengthDiff) * yAngle : shootingStar.y;
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(beginX, beginY);
+    this.ctx.lineTo(shootingStar.x - length * xAngle, shootingStar.y + length * yAngle);
+    this.ctx.stroke();
   }
 }
