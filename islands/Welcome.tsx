@@ -12,6 +12,7 @@ export default function Welcome({ stars }: WithStars) {
   const fireworkAnimation = useRef<number>();
 
   const stopFirework = () => {
+    starsCanvas.current && (starsCanvas.current.style.opacity = '1');
     if (!fireworkAnimation.current || !fireWorkCanvas.current) return;
 
     cancelAnimationFrame(fireworkAnimation.current);
@@ -22,6 +23,7 @@ export default function Welcome({ stars }: WithStars) {
     if (!fireWorkCanvas.current) return;
 
     stopFirework();
+    starsCanvas.current!.style.opacity = '0.25';
 
     const ctx = fireWorkCanvas.current.getContext('2d')!;
     fireWorkCanvas.current.width = window.innerWidth;
@@ -85,7 +87,7 @@ export default function Welcome({ stars }: WithStars) {
 
   return (
     <>
-      <canvas ref={starsCanvas} class='absolute'></canvas>
+      <canvas ref={starsCanvas} style={{ transition: 'opacity 1s ease-in-out' }} class='absolute'></canvas>
       <canvas ref={fireWorkCanvas} class='absolute'></canvas>
       <div
         onMouseEnter={() => welcome.value = true}
