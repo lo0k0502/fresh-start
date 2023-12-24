@@ -1,8 +1,8 @@
-import { apiURL } from '../../constants/common.ts';
+import { listFiles } from '../../base/api.ts';
 import FileList from '../../islands/nas/FileList.tsx';
 
 export default async function NAS() {
-  const files = await (await fetch(`${apiURL}/resources/hpc`)).json();
+  const files = await listFiles();
 
   return (
     <div class='relative flex flex-col w-full h-full'>

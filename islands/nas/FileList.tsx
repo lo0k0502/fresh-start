@@ -1,8 +1,8 @@
 import { useSignal } from '@preact/signals';
 import { useCallback } from 'preact/hooks';
 import type { FileInfo } from '../../types/nas.ts';
+import { deleteFile, listFiles } from '../../base/api.ts';
 import { FileCard, Toolbar, UploadButton } from '../../components/nas/mod.ts';
-import { apiURL } from '../../constants/common.ts';
 
 interface FileListProps {
   files: FileInfo[];
@@ -14,12 +14,12 @@ export default function FileList({ files }: FileListProps) {
   const $files = useSignal(handleFiles(files));
 
   const loadFiles = useCallback(async () => {
-    $files.value = handleFiles(await (await fetch(`${apiURL}/resources/hpc`)).json());
+    $files.value = handleFiles(await listFiles());
   }, []);
 
-  const deleteFile = useCallback(async (url: string) => {
+  const removeFile = useCallback(async (url: string) => {
     try {
-      await fetch(url, { method: 'DELETE' });
+      await deleteFile(url);
       await loadFiles();
     } catch (error) {
       console.error('Error Deleting File: ', error);
@@ -38,7 +38,7 @@ export default function FileList({ files }: FileListProps) {
         {$files.value.length
           ? (
             <div class='flex flex-col gap-4'>
-              {$files.value.map((file) => <FileCard file={file} onDeleteClick={deleteFile} />)}
+              {$files.value.map((file) => <FileCard file={file} onDeleteClick={removeFile} />)}
             </div>
           )
           : (
