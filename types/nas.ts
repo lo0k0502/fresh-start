@@ -3,6 +3,6 @@ export interface FileInfo {
   uri: string;
   url: string;
   type: string;
-  size: string;
+  size: number;
   uploadedAt: Date;
 }

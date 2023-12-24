@@ -2,6 +2,7 @@ import IconTrash from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/trash.tsx'
 import type { FileInfo } from '@type/nas.ts';
 import { VideoPreview } from '@components/common/VideoPreview.tsx';
 import { mimetypes } from '@constants/common.ts';
+import { formatBytes } from '@utils/common.ts';
 
 interface FileCardProps {
   file: FileInfo;
@@ -58,7 +59,7 @@ export const FileCard = ({ file: { name, uri, url, type, size, uploadedAt }, onD
         <div class='col-span-2 select-none overflow-x-auto whitespace-nowrap no-scrollbar'>
           {uri}
         </div>
-        <div class='col-span-1 select-none'>{size}</div>
+        <div class='col-span-1 select-none'>{formatBytes(size)}</div>
         <div class='col-span-1 select-none'>{uploadedAt.toLocaleDateString()}</div>
         <div class='col-span-1'>
           <div
