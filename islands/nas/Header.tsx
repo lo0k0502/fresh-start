@@ -1,5 +1,5 @@
-import NASMenu from '../../components/NASMenu.tsx';
-import NASMenuIcon from '../../components/NASMenuIcon.tsx';
+import NASMenu from '../../components/nas/NASMenu.tsx';
+import NASMenuIcon from '../../components/nas/NASMenuIcon.tsx';
 
 export default function Header() {
   return (

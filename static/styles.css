@@ -11,4 +11,8 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .border-1 {
+    border-width: 1px;
+  }
 }

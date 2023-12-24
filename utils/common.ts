@@ -1,5 +1,5 @@
 import { Direction, DirectionKey } from '../types/route.ts';
-import { directions } from '../constants/common.ts';
+import { byteQualifiers, byteUnit, directions } from '../constants/common.ts';
 
 export const wait = (timeout: number) => new Promise<void>((resolve) => setTimeout(() => resolve(), timeout));
 
@@ -12,3 +12,8 @@ export const getOppositeDirection = (direction: Direction) => {
 };
 
 export const random = (min: number, max: number) => Math.random() * (max - min) + min;
+
+export const formatBytes = (bytes: number) => {
+  const i = bytes && Math.floor(Math.log(bytes) / Math.log(byteUnit));
+  return `${parseFloat((bytes / Math.pow(byteUnit, i)).toFixed(1))} ${byteQualifiers[i]}`;
+};

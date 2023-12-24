@@ -1,38 +1,51 @@
 // deno-lint-ignore-file no-explicit-any
-import { createContext } from 'preact';
-import { WithChildren } from '../../types/common.ts';
 import { useSignal } from '@preact/signals';
+import { createContext, type JSX } from 'preact';
 import { useContext, useRef } from 'preact/hooks';
+import type { WithChildren } from '../../types/common.ts';
 
-const maskDefault = {
-  value: false,
-  open: (_onClose?: (...args: any[]) => void) => {},
+interface MaskContext {
+  isOpen: boolean;
+  open: (options?: { child?: JSX.Element; onClose?: <T>(...args: T[]) => void }) => void;
+  close: () => void;
+}
+
+const defaultContext = {
+  isOpen: false,
+  open: () => {},
   close: () => {},
 };
 
-const MaskContext = createContext(maskDefault);
+const MaskContext = createContext<MaskContext>(defaultContext);
+
 export const useMask = () => useContext(MaskContext);
 
 export default function MaskProvider({ children }: WithChildren) {
-  const mask = useSignal(maskDefault.value);
-  const onCloseRef = useRef<null | ((...args: any[]) => void)>(null);
+  const mask = useSignal(defaultContext.isOpen);
+  const onCloseRef = useRef<((...args: any[]) => void) | null>(null);
+  const maskChild = useRef<JSX.Element | null>(null);
 
-  const open = (onClose?: (...args: any[]) => void) => {
-    onCloseRef.current = onClose ?? null;
+  const open: MaskContext['open'] = (options) => {
+    if (options?.onClose) onCloseRef.current = options.onClose;
+    if (options?.child) maskChild.current = options.child;
+
     mask.value = true;
   };
 
   const close = () => {
     onCloseRef.current?.();
+    maskChild.current && (maskChild.current = null);
     mask.value = false;
   };
 
   return (
-    <MaskContext.Provider value={{ value: mask.value, open, close }}>
+    <MaskContext.Provider value={{ isOpen: mask.value, open, close }}>
       <div
-        class={`absolute w-screen h-screen bg-opacity-50 bg-black z-20 ${mask.value ? 'block' : 'hidden'}`}
+        class={`absolute w-screen h-screen bg-opacity-50 bg-black z-20 flex justify-center items-start py-10 ${mask.value ? 'block' : 'hidden'}`}
         onClick={close}
-      />
+      >
+        {maskChild.current}
+      </div>
       {children}
     </MaskContext.Provider>
   );

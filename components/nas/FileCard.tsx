@@ -34,8 +34,7 @@ export default function FileCard({ file: { name, uri, url, type, size, uploadedA
         <div class='col-span-1 select-none'>{uploadedAt.toLocaleDateString()}</div>
         <div class='col-span-1'>
           <div
-            style={{ borderWidth: '1px' }}
-            class='w-12 h-12 border-gray-300 rounded flex items-center justify-center cursor-pointer hover:bg-slate-50 active:bg-slate-100'
+            class='w-12 h-12 border-1 border-gray-300 rounded flex items-center justify-center cursor-pointer hover:bg-slate-50 active:bg-slate-100'
             onClick={() => onDeleteClick(url)}
           >
             <IconTrash />
