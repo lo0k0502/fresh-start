@@ -1,4 +1,3 @@
-import IconBrandDeno from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-deno.tsx';
 import { effect, useSignal } from '@preact/signals';
 import { useEffect, useRef } from 'preact/hooks';
 import type { WithStars } from '../types/stars.ts';
@@ -101,7 +100,7 @@ export default function Welcome({ stars }: WithStars) {
         }}
         class='relative'
       >
-        <IconBrandDeno class='w-60 h-60' />
+        <img src='/mit/deno.svg' class='w-60 h-60' />
         <div
           style={{
             opacity: welcome.value ? 1 : 0,
