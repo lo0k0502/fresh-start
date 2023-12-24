@@ -1,6 +1,6 @@
 import { computed, useSignal } from '@preact/signals';
 import { useCallback, useRef } from 'preact/hooks';
-import { mimetypes } from '../../constants/common.ts';
+import { apiURL, mimetypes } from '../../constants/common.ts';
 import { useMask } from '../../islands/contexts/Mask.tsx';
 import { formatBytes } from '../../utils/common.ts';
 import { Button } from '../Button.tsx';
@@ -78,7 +78,7 @@ export const UploadDialog = ({ loadFiles }: UploadDialogProps) => {
       const formData = new FormData();
       formData.append(fileURI.value, file.value);
 
-      await fetch('http://localhost:8080/resources/hpc/upload', {
+      await fetch(`${apiURL}/resources/hpc/upload`, {
         method: 'POST',
         body: formData,
       });

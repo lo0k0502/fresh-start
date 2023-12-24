@@ -2,6 +2,7 @@ import { useSignal } from '@preact/signals';
 import { useCallback } from 'preact/hooks';
 import type { FileInfo } from '../../types/nas.ts';
 import { FileCard, Toolbar, UploadButton } from '../../components/nas/mod.ts';
+import { apiURL } from '../../constants/common.ts';
 
 interface FileListProps {
   files: FileInfo[];
@@ -13,7 +14,7 @@ export default function FileList({ files }: FileListProps) {
   const $files = useSignal(handleFiles(files));
 
   const loadFiles = useCallback(async () => {
-    $files.value = handleFiles(await (await fetch('http://localhost:8080/resources/hpc')).json());
+    $files.value = handleFiles(await (await fetch(`${apiURL}/resources/hpc`)).json());
   }, []);
 
   const deleteFile = useCallback(async (url: string) => {
