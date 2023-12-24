@@ -2,6 +2,7 @@ import IconTrash from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/trash.tsx'
 import type { FileInfo } from '@type/nas.ts';
 import { VideoPreview } from '@components/common/VideoPreview.tsx';
 import { mimetypes } from '@constants/common.ts';
+import { useRouter } from '@islands/contexts/Router.tsx';
 import { formatBytes } from '@utils/common.ts';
 
 interface FileCardProps {
@@ -10,6 +11,8 @@ interface FileCardProps {
 }
 
 export const FileCard = ({ file: { name, uri, url, type, size, uploadedAt }, onDeleteClick }: FileCardProps) => {
+  const { navigate } = useRouter();
+
   const preview = (() => {
     switch (true) {
       case mimetypes.pdf.includes(type):
@@ -37,7 +40,7 @@ export const FileCard = ({ file: { name, uri, url, type, size, uploadedAt }, onD
   })();
 
   return (
-    <div class='bg-white grid grid-rows-3 rounded-lg h-44'>
+    <div class='bg-white grid grid-rows-3 rounded-lg h-44 overflow-hidden'>
       <div
         style={{ borderBottomWidth: '1px' }}
         class='row-span-1 grid grid-cols-8 border-gray-300 text-slate-500 font-semibold'
@@ -49,7 +52,10 @@ export const FileCard = ({ file: { name, uri, url, type, size, uploadedAt }, onD
         <div class='col-span-1  select-none'>Uploaded</div>
         <div class='col-span-1  select-none'>Action</div>
       </div>
-      <div class='row-span-2 grid grid-cols-8 text-black'>
+      <div
+        class='row-span-2 grid grid-cols-8 text-black bg-white hover:brightness-95 active:brightness-90 cursor-pointer'
+        onClick={() => navigate(`/nas/${uri}`)}
+      >
         <div class='col-span-1 justify-center'>
           {preview}
         </div>

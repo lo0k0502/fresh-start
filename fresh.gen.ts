@@ -11,6 +11,7 @@ import * as $game_index from './routes/game/index.tsx';
 import * as $index from './routes/index.tsx';
 import * as $monitor_layout from './routes/monitor/_layout.tsx';
 import * as $monitor_index from './routes/monitor/index.tsx';
+import * as $nas_fileURI_ from './routes/nas/[...fileURI].tsx';
 import * as $nas_layout from './routes/nas/_layout.tsx';
 import * as $nas_index from './routes/nas/index.tsx';
 import * as $stream_layout from './routes/stream/_layout.tsx';
@@ -36,6 +37,7 @@ const manifest = {
     './routes/index.tsx': $index,
     './routes/monitor/_layout.tsx': $monitor_layout,
     './routes/monitor/index.tsx': $monitor_index,
+    './routes/nas/[...fileURI].tsx': $nas_fileURI_,
     './routes/nas/_layout.tsx': $nas_layout,
     './routes/nas/index.tsx': $nas_index,
     './routes/stream/_layout.tsx': $stream_layout,
