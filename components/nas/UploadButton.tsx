@@ -1,6 +1,6 @@
 import { useCallback } from 'preact/hooks';
-import { useMask } from '../../islands/contexts/Mask.tsx';
-import { UploadDialog } from './UploadDialog.tsx';
+import { UploadDialog } from '@components/nas/UploadDialog.tsx';
+import { useMask } from '@islands/contexts/Mask.tsx';
 
 interface UploadButtonProps {
   loadFiles: () => Promise<void>;

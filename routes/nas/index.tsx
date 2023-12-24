@@ -1,5 +1,5 @@
-import { listFiles } from '../../base/api.ts';
-import FileList from '../../islands/nas/FileList.tsx';
+import { listFiles } from '@base/api.ts';
+import FileList from '@islands/nas/FileList.tsx';
 
 export default async function NAS() {
   const files = await listFiles();

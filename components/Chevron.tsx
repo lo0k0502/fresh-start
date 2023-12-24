@@ -1,4 +1,4 @@
-import type { Direction, LiteralDirectionMap } from '../types/route.ts';
+import type { Direction, LiteralDirectionMap } from '@type/route.ts';
 
 interface ChevronProps {
   direction: Direction;

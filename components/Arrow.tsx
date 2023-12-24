@@ -1,4 +1,4 @@
-import type { Direction, LiteralDirectionMap } from '../types/route.ts';
+import type { Direction, LiteralDirectionMap } from '@type/route.ts';
 
 interface ArrowProps {
   direction: Direction;
@@ -12,7 +12,7 @@ const directionMap: LiteralDirectionMap = {
   down: 'transform: rotate(90deg); transform-origin: center;',
 };
 
-export default function Arrow({ direction, class: classNames }: ArrowProps) {
+export const Arrow = ({ direction, class: classNames }: ArrowProps) => {
   return (
     <svg
       viewBox='0 0 155.139 155.139'
@@ -26,4 +26,4 @@ export default function Arrow({ direction, class: classNames }: ArrowProps) {
       />
     </svg>
   );
-}
+};

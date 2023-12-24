@@ -1,5 +1,5 @@
-import type { ShootingStar, Star } from '../types/stars.ts';
-import { random } from '../utils/common.ts';
+import type { ShootingStar, Star } from '@type/stars.ts';
+import { random } from '@utils/common.ts';
 
 const starAmount = 1000;
 

@@ -1,5 +1,5 @@
 import { computed } from '@preact/signals';
-import { menu } from '../../shared/signals.ts';
+import { menu } from '@shared/signals.ts';
 
 export const NASMenuIcon = () => {
   const instanceClass = computed(() => menu.value === 'open' ? 'absolute z-30 left-5.5' : '');

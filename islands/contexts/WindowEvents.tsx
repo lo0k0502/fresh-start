@@ -1,7 +1,7 @@
 import { createContext } from 'preact';
 import { useContext, useRef } from 'preact/hooks';
-import { WithChildren } from '../../types/common.ts';
-import { KeyboardEventRule, PartialKeyboardEventRule } from '../../types/windowEvents.ts';
+import type { WithChildren } from '@type/common.ts';
+import type { KeyboardEventRule, PartialKeyboardEventRule } from '@type/windowEvents.ts';
 
 interface WindowEventsContext {
   setKeyEvent: (keyboardEventRule: PartialKeyboardEventRule, eventFunction: (e: KeyboardEvent) => void) => void;

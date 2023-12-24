@@ -1,8 +1,10 @@
 import { useSignal } from '@preact/signals';
 import { useCallback } from 'preact/hooks';
-import type { FileInfo } from '../../types/nas.ts';
-import { deleteFile, listFiles } from '../../base/api.ts';
-import { FileCard, Toolbar, UploadButton } from '../../components/nas/mod.ts';
+import type { FileInfo } from '@type/nas.ts';
+import { deleteFile, listFiles } from '@base/api.ts';
+import { Toolbar } from '@components/nas/Toolbar.tsx';
+import { FileCard } from '@components/nas/FileCard.tsx';
+import { UploadButton } from '@components/nas/UploadButton.tsx';
 
 interface FileListProps {
   files: FileInfo[];

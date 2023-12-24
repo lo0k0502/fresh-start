@@ -1,5 +1,5 @@
 import { PageProps } from '$fresh/server.ts';
-import ContextProvider from '../islands/contexts/ContextProvider.tsx';
+import ContextProvider from '@islands/contexts/ContextProvider.tsx';
 
 export default function App({ Component }: PageProps) {
   return (

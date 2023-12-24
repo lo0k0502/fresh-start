@@ -1,15 +1,15 @@
 import { computed, useSignal } from '@preact/signals';
 import { createContext, type JSX } from 'preact';
 import { useContext, useEffect, useMemo, useRef } from 'preact/hooks';
-import type { WithChildren } from '../../types/common.ts';
-import type { Direction, Route } from '../../types/route.ts';
-import routes, { home, routesMap } from '../../base/routes.ts';
-import { useWindowEvents } from './WindowEvents.tsx';
-import { useAsyncThrottle } from '../../hooks/useThrottle.ts';
-import { directionKeys, keyDirectionMap } from '../../constants/route.ts';
-import { navigatingDuration } from '../../constants/animation.ts';
-import { isDirectionKey, wait } from '../../utils/common.ts';
-import NavigationIndicator from '../../components/NavigationIndicator.tsx';
+import type { WithChildren } from '@type/common.ts';
+import type { Direction, Route } from '@type/route.ts';
+import routes, { home, routesMap } from '@base/routes.ts';
+import { NavigationIndicator } from '@components/NavigationIndicator.tsx';
+import { directionKeys, keyDirectionMap } from '@constants/route.ts';
+import { navigatingDuration } from '@constants/animation.ts';
+import { useAsyncThrottle } from '@hooks/useThrottle.ts';
+import { useWindowEvents } from '@islands/contexts/WindowEvents.tsx';
+import { isDirectionKey, wait } from '@utils/common.ts';
 
 interface RouterContext {
   navigate: (path: string) => void;

@@ -1,9 +1,9 @@
 import { type JSX } from 'preact';
-import type { WithChildren } from '../types/common.ts';
-import type { Direction, DirectionMap } from '../types/route.ts';
-import { isMac } from '../constants/common.ts';
-import { directionKeyMap } from '../constants/route.ts';
-import Arrow from './Arrow.tsx';
+import type { WithChildren } from '@type/common.ts';
+import type { Direction, DirectionMap } from '@type/route.ts';
+import { Arrow } from '@components/Arrow.tsx';
+import { isMac } from '@constants/common.ts';
+import { directionKeyMap } from '@constants/route.ts';
 
 interface NavigationIndicatorProps extends WithChildren {
   show: boolean;
@@ -24,7 +24,7 @@ const kbdStyleMap: DirectionMap<JSX.CSSProperties> = {
   down: { left: '50%', bottom: '50%', transform: 'translate(-50%, 0)' },
 };
 
-export default function NavigationIndicator({ children, show, directions }: NavigationIndicatorProps) {
+export const NavigationIndicator = ({ children, show, directions }: NavigationIndicatorProps) => {
   return (
     <>
       {show && directions.map((direction) => (
@@ -51,4 +51,4 @@ export default function NavigationIndicator({ children, show, directions }: Navi
       {children}
     </>
   );
-}
+};

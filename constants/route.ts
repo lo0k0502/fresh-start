@@ -1,4 +1,4 @@
-import type { DirectionKey, LiteralDirectionMap } from '../types/route.ts';
+import type { DirectionKey, LiteralDirectionMap } from '@type/route.ts';
 
 export const directionKeys: DirectionKey[] = ['KeyA', 'KeyD', 'KeyW', 'KeyS'];
 

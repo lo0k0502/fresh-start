@@ -1,11 +1,11 @@
 import { computed, useSignal } from '@preact/signals';
 import { useCallback, useRef } from 'preact/hooks';
-import { uploadFile } from '../../base/api.ts';
-import { mimetypes } from '../../constants/common.ts';
-import { useMask } from '../../islands/contexts/Mask.tsx';
-import { formatBytes } from '../../utils/common.ts';
-import { Button } from '../Button.tsx';
-import { Chevron } from '../Chevron.tsx';
+import { uploadFile } from '@base/api.ts';
+import { Button } from '@components/Button.tsx';
+import { Chevron } from '@components/Chevron.tsx';
+import { mimetypes } from '@constants/common.ts';
+import { useMask } from '@islands/contexts/Mask.tsx';
+import { formatBytes } from '@utils/common.ts';
 
 interface UploadDialogProps {
   loadFiles: () => Promise<void>;

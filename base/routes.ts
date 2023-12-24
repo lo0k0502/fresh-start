@@ -1,13 +1,13 @@
 import { PageProps } from '$fresh/server.ts';
 import { type JSX } from 'preact';
-import type { Direction, Route } from '../types/route.ts';
-import { getOppositeDirection } from '../utils/common.ts';
-import Home from '../routes/index.tsx';
-import MonitorLayout from '../routes/monitor/_layout.tsx';
-import NASLayout from '../routes/nas/_layout.tsx';
-import GameLayout from '../routes/game/_layout.tsx';
-import FutureLayout from '../routes/future/_layout.tsx';
-import StreamLayout from '../routes/stream/_layout.tsx';
+import type { Direction, Route } from '@type/route.ts';
+import Home from '@routes/index.tsx';
+import MonitorLayout from '@routes/monitor/_layout.tsx';
+import NASLayout from '@routes/nas/_layout.tsx';
+import GameLayout from '@routes/game/_layout.tsx';
+import FutureLayout from '@routes/future/_layout.tsx';
+import StreamLayout from '@routes/stream/_layout.tsx';
+import { getOppositeDirection } from '@utils/common.ts';
 
 const routes: Route[] = [];
 

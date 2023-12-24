@@ -1,5 +1,5 @@
 import { PageProps } from '$fresh/server.ts';
-import Header from '../../islands/nas/Header.tsx';
+import Header from '@islands/nas/Header.tsx';
 
 export default function NASLayout({ Component }: PageProps) {
   return (

@@ -2,7 +2,7 @@
 import { useSignal } from '@preact/signals';
 import { createContext, type JSX } from 'preact';
 import { useContext, useRef } from 'preact/hooks';
-import type { WithChildren } from '../../types/common.ts';
+import type { WithChildren } from '@type/common.ts';
 
 interface MaskContext {
   isOpen: boolean;

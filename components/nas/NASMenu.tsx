@@ -1,6 +1,6 @@
 import { computed } from '@preact/signals';
-import { menu } from '../../shared/signals.ts';
-import { nasMenuDuration } from '../../constants/animation.ts';
+import { nasMenuDuration } from '@constants/animation.ts';
+import { menu } from '@shared/signals.ts';
 
 export const NASMenu = () => {
   const itemClass = 'w-full h-8 top-40 bg-blue-950 rounded-e-lg text-white flex items-center pl-4 cursor-pointer hover:bg-blue-600 active:bg-blue-700 shadow menu';

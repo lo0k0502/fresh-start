@@ -21,7 +21,17 @@
     "tailwindcss": "npm:tailwindcss@3.3.5",
     "tailwindcss/": "npm:/tailwindcss@3.3.5/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.3.5/plugin.js",
-    "$std/": "https://deno.land/std@0.193.0/"
+    "$std/": "https://deno.land/std@0.193.0/",
+    "@base/": "./base/",
+    "@components/": "./components/",
+    "@constants/": "./constants/",
+    "@hooks/": "./hooks/",
+    "@islands/": "./islands/",
+    "@routes/": "./routes/",
+    "@shared/": "./shared/",
+    "@static/": "./static/",
+    "@type/": "./types/",
+    "@utils/": "./utils/"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "exclude": ["**/_fresh/*"]

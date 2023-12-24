@@ -1,8 +1,8 @@
 import { effect, useSignal } from '@preact/signals';
 import { useEffect, useRef } from 'preact/hooks';
-import type { WithStars } from '../types/stars.ts';
-import { StarrySky } from '../base/stars.ts';
-import { Firework, Particle } from '../base/firework.ts';
+import type { WithStars } from '@type/stars.ts';
+import { StarrySky } from '@base/stars.ts';
+import { Firework, Particle } from '@base/firework.ts';
 
 export default function Welcome({ stars }: WithStars) {
   const welcome = useSignal(false);

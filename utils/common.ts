@@ -1,5 +1,5 @@
-import { Direction, DirectionKey } from '../types/route.ts';
-import { byteQualifiers, byteUnit, directions } from '../constants/common.ts';
+import type { Direction, DirectionKey } from '@type/route.ts';
+import { byteQualifiers, byteUnit, directions } from '@constants/common.ts';
 
 export const wait = (timeout: number) => new Promise<void>((resolve) => setTimeout(() => resolve(), timeout));
 

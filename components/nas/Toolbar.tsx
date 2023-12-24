@@ -1,4 +1,4 @@
-import { UploadButton } from './UploadButton.tsx';
+import { UploadButton } from '@components/nas/UploadButton.tsx';
 
 interface ToolbarProps {
   loadFiles: () => Promise<void>;
