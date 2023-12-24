@@ -1,7 +1,7 @@
 import { computed } from '@preact/signals';
 import { menu } from '../../shared/signals.ts';
 
-export default function NASMenuIcon() {
+export const NASMenuIcon = () => {
   const instanceClass = computed(() => menu.value === 'open' ? 'absolute z-30 left-5.5' : '');
   const shadowClass = computed(() => !instanceClass.value ? 'hidden' : 'block');
 
@@ -44,4 +44,4 @@ export default function NASMenuIcon() {
       </div>
     </>
   );
-}
+};

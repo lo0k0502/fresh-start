@@ -1,12 +1,12 @@
 import { useCallback } from 'preact/hooks';
 import { useMask } from '../../islands/contexts/Mask.tsx';
-import UploadDialog from './UploadDialog.tsx';
+import { UploadDialog } from './UploadDialog.tsx';
 
 interface UploadButtonProps {
   loadFiles: () => Promise<void>;
 }
 
-export default function UploadButton({ loadFiles }: UploadButtonProps) {
+export const UploadButton = ({ loadFiles }: UploadButtonProps) => {
   const { open } = useMask();
 
   const onClick = useCallback(() => open({ child: <UploadDialog loadFiles={loadFiles} /> }), []);
@@ -32,4 +32,4 @@ export default function UploadButton({ loadFiles }: UploadButtonProps) {
       <span>Upload</span>
     </div>
   );
-}
+};

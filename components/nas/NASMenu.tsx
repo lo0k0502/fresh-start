@@ -2,7 +2,7 @@ import { computed } from '@preact/signals';
 import { menu } from '../../shared/signals.ts';
 import { nasMenuDuration } from '../../constants/animation.ts';
 
-export default function NASMenu() {
+export const NASMenu = () => {
   const itemClass = 'w-full h-8 top-40 bg-blue-950 rounded-e-lg text-white flex items-center pl-4 cursor-pointer hover:bg-blue-600 active:bg-blue-700 shadow menu';
 
   const menuClass = computed<'left-0' | '-left-40'>(() => menu.value === 'open' ? 'left-0' : '-left-40');
@@ -93,4 +93,4 @@ export default function NASMenu() {
       </div>
     </div>
   );
-}
+};

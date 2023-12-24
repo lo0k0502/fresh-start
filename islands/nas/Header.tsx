@@ -1,5 +1,4 @@
-import NASMenu from '../../components/nas/NASMenu.tsx';
-import NASMenuIcon from '../../components/nas/NASMenuIcon.tsx';
+import { NASMenu, NASMenuIcon } from '../../components/nas/mod.ts';
 
 export default function Header() {
   return (

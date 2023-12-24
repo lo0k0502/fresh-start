@@ -8,14 +8,14 @@ interface ButtonProps extends JSX.HTMLAttributes<HTMLButtonElement> {
   right?: JSX.Element;
 }
 
-export function Button({
+export const Button = ({
   label,
   dark = false,
   left,
   right,
   class: classNames,
   ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   const hoverEffect = dark ? 'hover:brightness-105 active:brightness-110' : 'hover:brightness-95 active:brightness-90';
 
   return (
@@ -29,4 +29,4 @@ export function Button({
       {right}
     </button>
   );
-}
+};

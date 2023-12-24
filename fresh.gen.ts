@@ -23,7 +23,6 @@ import * as $contexts_Router from './islands/contexts/Router.tsx';
 import * as $contexts_WindowEvents from './islands/contexts/WindowEvents.tsx';
 import * as $nas_FileList from './islands/nas/FileList.tsx';
 import * as $nas_Header from './islands/nas/Header.tsx';
-import * as $nas_Toolbar from './islands/nas/Toolbar.tsx';
 import { type Manifest } from '$fresh/server.ts';
 
 const manifest = {
@@ -51,7 +50,6 @@ const manifest = {
     './islands/contexts/WindowEvents.tsx': $contexts_WindowEvents,
     './islands/nas/FileList.tsx': $nas_FileList,
     './islands/nas/Header.tsx': $nas_Header,
-    './islands/nas/Toolbar.tsx': $nas_Toolbar,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

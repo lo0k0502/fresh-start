@@ -1,19 +1,19 @@
 import { useSignal } from '@preact/signals';
 import { useCallback } from 'preact/hooks';
 import type { FileInfo } from '../../types/nas.ts';
-import FileCard from '../../components/nas/FileCard.tsx';
-import UploadButton from '../../components/nas/UploadButton.tsx';
-import Toolbar from './Toolbar.tsx';
+import { FileCard, Toolbar, UploadButton } from '../../components/nas/mod.ts';
 
 interface FileListProps {
   files: FileInfo[];
 }
 
+const handleFiles = (files: FileInfo[]) => files.map((file) => ({ ...file, uploadedAt: new Date(file.uploadedAt) })).toSorted((a: FileInfo, b: FileInfo) => b.uploadedAt.getTime() - a.uploadedAt.getTime());
+
 export default function FileList({ files }: FileListProps) {
-  const $files = useSignal(files.map((file) => ({ ...file, uploadedAt: new Date(file.uploadedAt) })));
+  const $files = useSignal(handleFiles(files));
 
   const loadFiles = useCallback(async () => {
-    $files.value = (await (await fetch('http://localhost:8080/resources/hpc')).json()).map((file: FileInfo) => ({ ...file, uploadedAt: new Date(file.uploadedAt) }));
+    $files.value = handleFiles(await (await fetch('http://localhost:8080/resources/hpc')).json());
   }, []);
 
   const deleteFile = useCallback(async (url: string) => {

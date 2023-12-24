@@ -1,13 +1,13 @@
-import UploadButton from '../../components/nas/UploadButton.tsx';
+import { UploadButton } from './UploadButton.tsx';
 
 interface ToolbarProps {
   loadFiles: () => Promise<void>;
 }
 
-export default function Toolbar({ loadFiles }: ToolbarProps) {
+export const Toolbar = ({ loadFiles }: ToolbarProps) => {
   return (
     <div class='flex'>
       <UploadButton loadFiles={loadFiles} />
     </div>
   );
-}
+};

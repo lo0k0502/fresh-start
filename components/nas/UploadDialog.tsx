@@ -10,7 +10,7 @@ interface UploadDialogProps {
   loadFiles: () => Promise<void>;
 }
 
-export default function UploadDialog({ loadFiles }: UploadDialogProps) {
+export const UploadDialog = ({ loadFiles }: UploadDialogProps) => {
   const { close } = useMask();
   const dragHover = useSignal(false);
   const file = useSignal<File | null>(null);
@@ -176,4 +176,4 @@ export default function UploadDialog({ loadFiles }: UploadDialogProps) {
         )}
     </div>
   );
-}
+};
