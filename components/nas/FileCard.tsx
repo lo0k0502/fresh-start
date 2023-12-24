@@ -1,5 +1,6 @@
 import IconTrash from 'https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/trash.tsx';
 import type { FileInfo } from '../../types/nas.ts';
+import { VideoPreview } from '../common/VideoPreview.tsx';
 import { mimetypes } from '../../constants/common.ts';
 
 interface FileCardProps {
@@ -24,14 +25,7 @@ export const FileCard = ({ file: { name, uri, url, type, size, uploadedAt }, onD
         );
 
       case mimetypes.video.includes(type):
-        return (
-          <div class='relative h-20 w-full flex justify-center'>
-            <video class='absolute h-20'>
-              <source src={url}></source>
-            </video>
-            <img src='/mit/video.svg' />
-          </div>
-        );
+        return <VideoPreview url={url} />;
 
       case mimetypes.text.includes(type):
         return <img src='/mit/document.svg' class='h-20' />;
